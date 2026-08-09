@@ -8,7 +8,6 @@ window.TRIP_DATA = {
     sub: "4 nights · Bukit Bintang · All prices for 2 people · Booking links included",
     coupleTag: "💑 2 People — All prices below are for the couple",
     ratePill: "💱 Live rate (8 Aug 2026): <strong>1 RM ≈ ₹23.30</strong> · All activity prices = per person × 2",
-    budgetAlert: "<strong>💡 Heads up on total budget:</strong> Your original ₹50,000 additional budget covers activities + food + transport for 2 — it comes to ~₹68,483. Combined with flights (₹55,000) + hotel (₹14,200), total is ~<strong>₹1,37,683</strong>. You confirmed ₹68,483 for the additional spend is fine — so this plan uses that. Shopping stays under ₹10,000 as requested."
   },
 
   fixedBookings: [

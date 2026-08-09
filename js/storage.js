@@ -1,19 +1,51 @@
 /**
- * State Management & localStorage Persistence with Multi-Channel Wallet (Cash, Card & Indian Bank A/C) Engine
+ * State Management & Permanent localStorage Persistence Engine
+ * Safeguards all user-entered data (spends, bookings, cash in hand, custom expenses)
+ * across app updates, offline caching, and page reloads.
  */
 
-const STORAGE_KEY = 'kl_trip_planner_state_v7';
+const STORAGE_KEY = 'kl_trip_pwa_data';
+const LEGACY_KEYS = [
+  'kl_trip_planner_state_v7',
+  'kl_trip_planner_state_v6',
+  'kl_trip_planner_state_v5',
+  'kl_trip_planner_state_v4',
+  'kl_trip_state_v3',
+  'kl_trip_state_v2',
+  'kl_trip_state_v1'
+];
 
 window.TripStorage = {
   getState: function() {
     try {
       var saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        return JSON.parse(saved);
+        var parsed = JSON.parse(saved);
+        return this.ensureStateSchema(parsed);
+      }
+
+      // Check legacy storage keys to seamlessly migrate existing user data
+      for (var i = 0; i < LEGACY_KEYS.length; i++) {
+        var legacy = localStorage.getItem(LEGACY_KEYS[i]);
+        if (legacy) {
+          try {
+            var legacyParsed = JSON.parse(legacy);
+            var migrated = this.ensureStateSchema(legacyParsed);
+            this.saveState(migrated);
+            return migrated;
+          } catch (err) {
+            console.warn('Legacy migration error:', err);
+          }
+        }
       }
     } catch (e) {
       console.warn('Storage read error:', e);
     }
+
+    return this.getDefaultState();
+  },
+
+  getDefaultState: function() {
     return {
       done: {},
       booked: {},
@@ -25,6 +57,26 @@ window.TripStorage = {
       },
       activeView: 'd1'
     };
+  },
+
+  // Safe schema validator & merger
+  ensureStateSchema: function(state) {
+    if (!state || typeof state !== 'object') {
+      return this.getDefaultState();
+    }
+    if (!state.done || typeof state.done !== 'object') state.done = {};
+    if (!state.booked || typeof state.booked !== 'object') state.booked = {};
+    if (!state.expenses || typeof state.expenses !== 'object') state.expenses = {};
+    if (!Array.isArray(state.customExpenses)) state.customExpenses = [];
+    if (!state.wallet || typeof state.wallet !== 'object') {
+      state.wallet = { initialCashRm: 500, exchangeRate: 23.30 };
+    } else {
+      if (typeof state.wallet.initialCashRm === 'undefined') state.wallet.initialCashRm = 500;
+      if (typeof state.wallet.exchangeRate === 'undefined') state.wallet.exchangeRate = 23.30;
+    }
+    if (!state.activeView || state.activeView === 'all') state.activeView = 'd1';
+
+    return state;
   },
 
   saveState: function(state) {
@@ -312,7 +364,7 @@ window.TripStorage = {
   },
 
   getDynamicBudgetTotals: function() {
-    var fixedPaid = 69200; // Flights ₹55,000 + Hotel ₹14,200
+    var fixedPaid = 69200; // Flights ₹55,000 + Kingston Hotel 8 ₹14,200
 
     var ticketsTotal = 0;
     var ticketsPaid = 0;
@@ -418,5 +470,8 @@ window.TripStorage = {
 
   resetAll: function() {
     localStorage.removeItem(STORAGE_KEY);
+    for (var i = 0; i < LEGACY_KEYS.length; i++) {
+      localStorage.removeItem(LEGACY_KEYS[i]);
+    }
   }
 };

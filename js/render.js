@@ -29,7 +29,6 @@ function renderMetaAlerts() {
     <div class="rate-pill-container">
       <div class="rate-pill">${meta.ratePill}</div>
     </div>
-    <div class="alert-box">${meta.budgetAlert}</div>
   `;
 }
 
@@ -133,7 +132,7 @@ function renderFixedBookings() {
     <div class="fixed-bookings">
   `;
 
-  window.TRIP_DATA.fixedBookings.forEach(function(b) {
+  window.TRIP_DATA.fixedBookings.forEach(function (b) {
     html += `
       <div class="booking-card">
         <div class="bc-label">${b.label} <span class="tag-confirmed">${b.statusTag}</span></div>
@@ -157,7 +156,7 @@ function renderDayTabs() {
 
   var html = `<div class="day-tabs-container">`;
 
-  window.ITINERARY_DATA.forEach(function(day) {
+  window.ITINERARY_DATA.forEach(function (day) {
     var isActive = activeView === day.id;
     html += `
       <button class="day-tab ${isActive ? 'active' : ''}" onclick="switchView('${day.id}')">
@@ -218,14 +217,14 @@ function renderTimelineItem(item) {
   }
 
   if (item.badges && item.badges.length) {
-    item.badges.forEach(function(b) {
+    item.badges.forEach(function (b) {
       metaHtml += `<span class="price-badge ${b.class}">${b.text}</span>`;
     });
   }
 
   // 3. Booking buttons: hide booking button if already booked!
   if (item.buttons && item.buttons.length) {
-    item.buttons.forEach(function(btn) {
+    item.buttons.forEach(function (btn) {
       var isBookingButton = btn.text.toLowerCase().includes('book') || btn.text.toLowerCase().includes('official') || btn.text.toLowerCase().includes('klook');
       if (item.isTicketRequired && isBooked && isBookingButton) {
         return; // Don't show booking button when already booked
@@ -270,7 +269,7 @@ function renderCustomExpenses(dayId) {
 
   var itemsHtml = '';
   if (list && list.length) {
-    list.forEach(function(e) {
+    list.forEach(function (e) {
       var tagLabel = '💵 Cash';
       if (e.paymentMethod === 'card') tagLabel = '💳 Card';
       else if (e.paymentMethod === 'bank') tagLabel = '🏦 Indian Bank';
@@ -310,7 +309,7 @@ function renderItinerary() {
   var activeView = window.TripStorage ? window.TripStorage.getActiveView() : 'd1';
   if (activeView === 'all') activeView = 'd1';
 
-  var dayIndex = window.ITINERARY_DATA.findIndex(function(d) { return d.id === activeView; });
+  var dayIndex = window.ITINERARY_DATA.findIndex(function (d) { return d.id === activeView; });
   if (dayIndex === -1) dayIndex = 0;
   var day = window.ITINERARY_DATA[dayIndex];
 
@@ -319,7 +318,7 @@ function renderItinerary() {
 
   var timelineHtml = '';
   if (day.timeline && day.timeline.length) {
-    day.timeline.forEach(function(item) {
+    day.timeline.forEach(function (item) {
       timelineHtml += renderTimelineItem(item);
     });
   }
@@ -337,7 +336,7 @@ function renderItinerary() {
   if (mapData) {
     var chipStopsHtml = '';
     if (mapData.chipStops && mapData.chipStops.length) {
-      mapData.chipStops.forEach(function(s, idx) {
+      mapData.chipStops.forEach(function (s, idx) {
         var numClass = s.isHotel ? ' hotel' : '';
         var kmHtml = s.km ? `<span class="map-stop-km">${s.km}</span>` : '';
         var arrowHtml = idx < mapData.chipStops.length - 1 ? `<span class="map-stop-arrow">→</span>` : '';
@@ -393,7 +392,7 @@ function renderItinerary() {
 
   // Initialize Map for focused day
   if (mapData) {
-    setTimeout(function() {
+    setTimeout(function () {
       if (window.initMap) {
         initMap(day.mapId);
       }
@@ -438,9 +437,9 @@ function renderBudgetTable() {
         </div>
   `;
 
-  window.ITINERARY_DATA.forEach(function(day) {
+  window.ITINERARY_DATA.forEach(function (day) {
     if (day.timeline) {
-      day.timeline.forEach(function(item) {
+      day.timeline.forEach(function (item) {
         if (item.isTicketRequired) {
           var isBooked = window.TripStorage.isItemBooked(item.id, item.defaultBooked);
           var exp = window.TripStorage.getItemExpense(item);
@@ -470,9 +469,9 @@ function renderBudgetTable() {
         </div>
   `;
 
-  window.ITINERARY_DATA.forEach(function(day) {
+  window.ITINERARY_DATA.forEach(function (day) {
     if (day.timeline) {
-      day.timeline.forEach(function(item) {
+      day.timeline.forEach(function (item) {
         if (item.category === 'food') {
           var isDone = window.TripStorage.isItemDone(item.id);
           var exp = window.TripStorage.getItemExpense(item);
@@ -500,9 +499,9 @@ function renderBudgetTable() {
         </div>
   `;
 
-  window.ITINERARY_DATA.forEach(function(day) {
+  window.ITINERARY_DATA.forEach(function (day) {
     if (day.timeline) {
-      day.timeline.forEach(function(item) {
+      day.timeline.forEach(function (item) {
         if (item.category === 'transport') {
           var isDone = window.TripStorage.isItemDone(item.id);
           var exp = window.TripStorage.getItemExpense(item);
@@ -531,7 +530,7 @@ function renderBudgetTable() {
           <div class="bg-inr">₹</div>
         </div>
     `;
-    customList.forEach(function(ce) {
+    customList.forEach(function (ce) {
       var payTag = `<span class="table-pay-tag ${ce.paymentMethod}">${ce.paymentMethod === 'cash' ? '💵 Cash' : (ce.paymentMethod === 'bank' ? '🏦 Bank' : '💳 Card')}</span>`;
       html += `
         <div class="bg-row">
@@ -610,7 +609,7 @@ function renderShoppingGuide() {
 
   var data = window.TRIP_DATA.shopping;
   var itemsHtml = '';
-  data.items.forEach(function(item) {
+  data.items.forEach(function (item) {
     itemsHtml += `
       <li>
         <strong>${item.title}</strong>
@@ -633,7 +632,7 @@ function renderTravelTips() {
   if (!container || !window.TRIP_DATA || !window.TRIP_DATA.tips) return;
 
   var cardsHtml = '';
-  window.TRIP_DATA.tips.forEach(function(tip) {
+  window.TRIP_DATA.tips.forEach(function (tip) {
     cardsHtml += `
       <div class="tip-card">
         <h4>${tip.title}</h4>
