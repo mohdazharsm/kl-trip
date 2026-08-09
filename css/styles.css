@@ -374,7 +374,7 @@ body {
   vertical-align: middle;
 }
 
-/* Day Tabs Navigation */
+/* Day Tabs Navigation (Day 1 - 5) */
 .day-tabs-container {
   display: flex;
   gap: 8px;
@@ -461,30 +461,20 @@ body {
   color: var(--accent);
 }
 
-/* Day Card & Accordion */
+/* Day Card */
 .day-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   margin-bottom: 16px;
   overflow: hidden;
-  transition: border-color 0.2s;
 }
 .day-header {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 16px 20px;
-  cursor: pointer;
-  user-select: none;
-  border-bottom: 1px solid transparent;
-  transition: background 0.15s;
-}
-.day-header:hover {
-  background: var(--surface2);
-}
-.day-header.open {
-  border-bottom-color: var(--border);
+  border-bottom: 1px solid var(--border);
 }
 .day-badge {
   background: var(--accent);
@@ -521,27 +511,14 @@ body {
   color: var(--green);
   white-space: nowrap;
 }
-.chevron {
-  color: var(--muted);
-  font-size: 18px;
-  transition: transform 0.2s;
-  margin-left: 6px;
-}
-.day-header.open .chevron {
-  transform: rotate(180deg);
-}
 
 .day-body {
-  display: none;
-  padding: 0 20px 20px;
-}
-.day-body.open {
-  display: block;
+  padding: 16px 20px 20px;
 }
 
 /* Timeline & Interactive Items */
 .timeline {
-  margin-top: 16px;
+  margin-top: 10px;
 }
 .tl-item {
   display: grid;
@@ -619,15 +596,43 @@ body {
 
 .tl-top-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 .tl-name {
   font-weight: 600;
   font-size: 15px;
   flex: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Location Map Button */
+.loc-map-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  text-decoration: none;
+  color: var(--accent);
+  vertical-align: middle;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.loc-map-btn:hover {
+  background: #252d45;
+  border-color: var(--accent);
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* Interactive Checkbox Button */

@@ -219,6 +219,9 @@ function renderTimelineItem(item) {
 
   var tipBoxHtml = item.tipBox ? `<div class="tip-box">${item.tipBox}</div>` : '';
 
+  var mapUrl = item.mapUrl || ('https://maps.google.com/?q=' + encodeURIComponent((item.shortName || item.name) + ' Kuala Lumpur Malaysia'));
+  var mapBtnHtml = `<a class="loc-map-btn" href="${mapUrl}" target="_blank" rel="noopener" title="Open ${item.shortName || item.name} in Google Maps" onclick="event.stopPropagation()">📍</a>`;
+
   return `
     <div class="tl-item ${isDone ? 'is-done' : ''}" id="item-${item.id}">
       <div class="tl-left">
@@ -227,7 +230,10 @@ function renderTimelineItem(item) {
       </div>
       <div class="tl-content">
         <div class="tl-top-row">
-          <div class="tl-name">${item.name}</div>
+          <div class="tl-name">
+            ${item.name}
+            ${mapBtnHtml}
+          </div>
           <button class="done-toggle-btn ${isDone ? 'is-done' : ''}" onclick="toggleDone('${item.id}', event)">
             ${isDone ? '✓ Done' : '○ Mark Done'}
           </button>

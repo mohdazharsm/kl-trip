@@ -1,6 +1,6 @@
 /**
  * Structured Itinerary Data for Days 1 to 5
- * Includes category, default costs (INR & RM), payment methods, and ticket flags
+ * Includes category, default costs (INR & RM), payment methods, ticket flags, and Google Maps location URLs
  */
 window.ITINERARY_DATA = [
   {
@@ -27,6 +27,7 @@ window.ITINERARY_DATA = [
         costInr: 2563,
         costRm: 110,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=KLIA+Terminal+1+Kuala+Lumpur",
         badges: [
           { text: "RM 55 × 2 = RM 110 · ₹2,563", class: "paid" },
           { text: "₹1,281/person", class: "pp" }
@@ -47,6 +48,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Kingston+Hotel+8+Kuala+Lumpur+Bukit+Bintang",
         badges: [
           { text: "FREE (breakfast for 2 included)", class: "free" }
         ]
@@ -63,6 +65,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=KLCC+Park+Kuala+Lumpur",
         badges: [
           { text: "FREE", class: "free" }
         ]
@@ -80,6 +83,7 @@ window.ITINERARY_DATA = [
         costInr: 7084,
         costRm: 304,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Petronas+Twin+Towers+Kuala+Lumpur",
         badges: [
           { text: "RM 152 × 2 = RM 304 · ₹7,084", class: "paid" },
           { text: "₹3,542/person", class: "pp" }
@@ -102,6 +106,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Lake+Symphony+KLCC+Park",
         badges: [
           { text: "FREE", class: "free" }
         ]
@@ -118,6 +123,7 @@ window.ITINERARY_DATA = [
         costInr: 1631,
         costRm: 70,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Jalan+Alor+Food+Street+Bukit+Bintang",
         badges: [
           { text: "~RM 60–80 for 2 · ₹1,400–1,864", class: "food" }
         ]
@@ -146,6 +152,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Kingston+Hotel+8+Kuala+Lumpur+Bukit+Bintang",
         badges: [
           { text: "FREE (included for 2)", class: "free" }
         ]
@@ -162,6 +169,7 @@ window.ITINERARY_DATA = [
         costInr: 233,
         costRm: 10,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=KL+Forest+Eco+Park+Kuala+Lumpur",
         badges: [
           { text: "~FREE – RM 5–10 · ₹120–235", class: "free" }
         ],
@@ -182,6 +190,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Masjid+Wilayah+Persekutuan+Kuala+Lumpur",
         badges: [
           { text: "FREE Entry", class: "free" }
         ],
@@ -202,6 +211,7 @@ window.ITINERARY_DATA = [
         costInr: 932,
         costRm: 40,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Brickfields+Little+India+Kuala+Lumpur",
         badges: [
           { text: "~RM 30–50 for 2 · ₹700–1,165", class: "food" }
         ]
@@ -218,6 +228,7 @@ window.ITINERARY_DATA = [
         costInr: 932,
         costRm: 40,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Thean+Hou+Temple+Kuala+Lumpur",
         badges: [
           { text: "FREE Entry", class: "free" },
           { text: "Grab both ways: ~RM 40 · ₹932", class: "paid" }
@@ -238,6 +249,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Petaling+Street+Chinatown+Kuala+Lumpur",
         badges: [
           { text: "FREE to explore", class: "free" }
         ],
@@ -257,6 +269,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Pavilion+Kuala+Lumpur",
         badges: [
           { text: "FREE to browse", class: "free" },
           { text: "Shopping from your ₹10,000 budget", class: "paid" }
@@ -274,6 +287,7 @@ window.ITINERARY_DATA = [
         costInr: 1748,
         costRm: 75,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Changkat+Bukit+Bintang+Kuala+Lumpur",
         badges: [
           { text: "Dinner for 2 ~RM 60–90 · ₹1,398–2,097", class: "food" }
         ]
@@ -304,6 +318,7 @@ window.ITINERARY_DATA = [
         costInr: 815,
         costRm: 35,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Batu+Caves+Gombak+Selangor",
         badges: [
           { text: "Grab ~RM 35 · ₹815 for 2", class: "paid" }
         ]
@@ -320,6 +335,7 @@ window.ITINERARY_DATA = [
         costInr: 466,
         costRm: 20,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Batu+Caves+Temple+Selangor",
         badges: [
           { text: "Main Cave: FREE", class: "free" },
           { text: "Ramayana Cave/Cave Villa: ~RM 20 for 2", class: "paid" }
@@ -338,6 +354,7 @@ window.ITINERARY_DATA = [
         costInr: 583,
         costRm: 25,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Zoo+Negara+Malaysia+Ulu+Klang",
         badges: [
           { text: "Grab ~RM 25 · ₹583 for 2", class: "paid" }
         ]
@@ -355,6 +372,7 @@ window.ITINERARY_DATA = [
         costInr: 3914,
         costRm: 168,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Zoo+Negara+Malaysia",
         badges: [
           { text: "~RM 84 × 2 = RM 168 · ₹3,914 for couple", class: "paid" }
         ],
@@ -374,6 +392,7 @@ window.ITINERARY_DATA = [
         costInr: 700,
         costRm: 30,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Bukit+Bintang+Kuala+Lumpur",
         badges: [
           { text: "Grab ~RM 30 · ₹700 for 2", class: "paid" }
         ]
@@ -390,6 +409,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Kingston+Hotel+8+Kuala+Lumpur+Bukit+Bintang",
         badges: [
           { text: "FREE", class: "free" }
         ]
@@ -406,6 +426,7 @@ window.ITINERARY_DATA = [
         costInr: 1398,
         costRm: 60,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Jalan+Alor+Night+Market+Kuala+Lumpur",
         badges: [
           { text: "Dinner for 2 ~RM 50–70 · ₹1,165–1,630", class: "food" }
         ]
@@ -437,6 +458,7 @@ window.ITINERARY_DATA = [
         costInr: 932,
         costRm: 40,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Awana+Bus+Terminal+Genting+Highlands",
         badges: [
           { text: "Bus RT for 2: ~RM 40 · ₹932", class: "paid" }
         ],
@@ -457,6 +479,7 @@ window.ITINERARY_DATA = [
         costInr: 2563,
         costRm: 110,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Awana+SkyWay+Genting+Highlands",
         badges: [
           { text: "RM 55 × 2 RT = RM 110 · ₹2,563", class: "paid" },
           { text: "₹1,281/person", class: "pp" }
@@ -477,6 +500,7 @@ window.ITINERARY_DATA = [
         costInr: 1398,
         costRm: 60,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=SkyAvenue+Genting+Highlands",
         badges: [
           { text: "Lunch for 2 ~RM 60 · ₹1,398", class: "food" },
           { text: "Temple + Outlets: FREE", class: "free" }
@@ -494,6 +518,7 @@ window.ITINERARY_DATA = [
         costInr: 466,
         costRm: 20,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=KL+Sentral+Kuala+Lumpur",
         badges: [
           { text: "~RM 20 Grab · ₹466 for 2", class: "paid" }
         ]
@@ -511,6 +536,7 @@ window.ITINERARY_DATA = [
         costInr: 3728,
         costRm: 160,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Aquaria+KLCC+Kuala+Lumpur",
         badges: [
           { text: "RM 80 × 2 = RM 160 · ₹3,728", class: "paid" },
           { text: "₹1,864/person", class: "pp" }
@@ -532,6 +558,7 @@ window.ITINERARY_DATA = [
         costInr: 3495,
         costRm: 150,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Marini%27s+on+57+Kuala+Lumpur",
         badges: [
           { text: "Dinner for 2 ~RM 100–200 · ₹2,330–4,660", class: "food" }
         ]
@@ -560,6 +587,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Kingston+Hotel+8+Kuala+Lumpur+Bukit+Bintang",
         badges: [
           { text: "FREE (included for 2)", class: "free" }
         ]
@@ -576,6 +604,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Pavilion+Kuala+Lumpur",
         badges: [
           { text: "Shopping: <₹10,000 total (your cap)", class: "paid" }
         ]
@@ -593,6 +622,7 @@ window.ITINERARY_DATA = [
         costInr: 2563,
         costRm: 110,
         defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Kuala+Lumpur+International+Airport",
         badges: [
           { text: "RM 55 × 2 = RM 110 · ₹2,563 for couple", class: "paid" }
         ],

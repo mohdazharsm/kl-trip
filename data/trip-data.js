@@ -22,9 +22,9 @@ window.TRIP_DATA = {
     },
     {
       label: "🏨 Hotel · 4 Nights",
-      title: "My Hotel @ Bukit Bintang",
+      title: "Kingston Hotel 8 @ KL Bukit Bintang",
       statusTag: "Confirmed",
-      detail: "Check-in 16 Aug 3 PM · Check-out 20 Aug 12 PM<br>Breakfast for 2 included · 120 Jalan Pudu, KL",
+      detail: "Check-in 16 Aug 3 PM · Check-out 20 Aug 12 PM<br>Breakfast for 2 included · Bukit Bintang, KL",
       price: "₹14,200",
       priceSub: "room"
     }
