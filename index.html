@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>KL Trip Plan — Aug 2026 · 2 People</title>
+
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="KL Trip">
+  <meta name="theme-color" content="#0f1117">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230f1117'/%3E%3Ctext x='90' y='115' font-size='90' text-anchor='middle'%3E%F0%9F%8C%86%3C/text%3E%3C/svg%3E">
+
+  <!-- Leaflet Map Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+  <!-- Hero Header -->
+  <div id="hero-section" class="hero"></div>
+
+  <!-- Exchange Rate & Budget Alert -->
+  <div id="meta-alerts"></div>
+
+  <!-- Trip Checklist Progress Tracker -->
+  <div id="progress-container"></div>
+
+  <!-- Confirmed Bookings (Flights & Hotel) -->
+  <div id="fixed-bookings-container"></div>
+
+  <!-- Day-Wise Tab Navigation -->
+  <div id="day-tabs-container"></div>
+
+  <!-- Day-by-Day Itinerary & Maps -->
+  <div id="itinerary-container"></div>
+
+  <!-- Budget Breakdown Table -->
+  <div id="budget-container"></div>
+
+  <!-- Shopping Guide -->
+  <div id="shopping-container"></div>
+
+  <!-- Pro Couple Travel Tips -->
+  <div id="tips-container"></div>
+
+  <!-- Summary Ribbon & Footer -->
+  <div id="summary-container"></div>
+
+  <!-- Leaflet Map Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <!-- Data Models -->
+  <script src="data/map-data.js"></script>
+  <script src="data/itinerary.js"></script>
+  <script src="data/trip-data.js"></script>
+
+  <!-- App Storage & Controllers -->
+  <script src="js/storage.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
