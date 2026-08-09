@@ -214,16 +214,11 @@ function selectModalPaymentMethod(method) {
 
   var cashTile = document.getElementById('poc-cash');
   var cardTile = document.getElementById('poc-card');
+  var bankTile = document.getElementById('poc-bank');
 
-  if (cashTile && cardTile) {
-    if (method === 'cash') {
-      cashTile.className = 'pay-option-card selected cash';
-      cardTile.className = 'pay-option-card card';
-    } else {
-      cashTile.className = 'pay-option-card cash';
-      cardTile.className = 'pay-option-card selected card';
-    }
-  }
+  if (cashTile) cashTile.className = 'pay-option-card cash' + (method === 'cash' ? ' selected' : '');
+  if (cardTile) cardTile.className = 'pay-option-card card' + (method === 'card' ? ' selected' : '');
+  if (bankTile) bankTile.className = 'pay-option-card bank' + (method === 'bank' ? ' selected' : '');
 }
 
 function saveCustomExpense(event) {

@@ -96,11 +96,15 @@
           <div class="payment-selector-grid">
             <div class="pay-option-card selected cash" id="poc-cash" onclick="selectModalPaymentMethod('cash')">
               <div class="poc-title">💵 Cash (RM)</div>
-              <div class="poc-sub">Deducts from Cash in Hand</div>
+              <div class="poc-sub">Deducts Cash in Hand</div>
             </div>
             <div class="pay-option-card card" id="poc-card" onclick="selectModalPaymentMethod('card')">
               <div class="poc-title">💳 Card / Forex</div>
               <div class="poc-sub">Charges to Card</div>
+            </div>
+            <div class="pay-option-card bank" id="poc-bank" onclick="selectModalPaymentMethod('bank')">
+              <div class="poc-title">🏦 Indian Bank</div>
+              <div class="poc-sub">Debited from INR A/C</div>
             </div>
           </div>
         </div>

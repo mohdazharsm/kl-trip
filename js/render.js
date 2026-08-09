@@ -1,35 +1,35 @@
 /**
- * Dynamic DOM Renderer with Dedicated Day-Wise Viewer, Wallet Dashboard, Dual Currency Inputs, and Granular Budget Engine
+ * DOM Rendering Engine for KL Trip Planner with Multi-Channel Wallet (Cash, Card, Indian Bank A/C) Support
  */
 
 function renderHero() {
-  var heroEl = document.getElementById('hero-section');
+  var heroEl = document.getElementById('hero-container');
   if (!heroEl || !window.TRIP_DATA || !window.TRIP_DATA.meta) return;
-  var meta = window.TRIP_DATA.meta;
 
+  var meta = window.TRIP_DATA.meta;
   heroEl.innerHTML = `
-    <div class="hero-eyebrow">${meta.eyebrow}</div>
-    <h1>${meta.title}</h1>
-    <div class="hero-sub">${meta.sub}</div>
-    <div class="hero-tags">
-      <span class="couple-tag">${meta.coupleTag}</span>
-      <span class="pwa-tag">📱 Offline &amp; PWA Ready</span>
+    <div class="hero">
+      <div class="hero-eyebrow">${meta.eyebrow}</div>
+      <h1>${meta.title}</h1>
+      <div class="hero-sub">${meta.sub}</div>
+      <div class="hero-tags">
+        <span class="couple-tag">${meta.coupleTag}</span>
+        <span class="pwa-tag">📱 Offline PWA Ready</span>
+      </div>
     </div>
   `;
 }
 
 function renderMetaAlerts() {
-  var alertsEl = document.getElementById('meta-alerts');
-  if (!alertsEl || !window.TRIP_DATA || !window.TRIP_DATA.meta) return;
-  var meta = window.TRIP_DATA.meta;
+  var alertEl = document.getElementById('meta-alerts-container');
+  if (!alertEl || !window.TRIP_DATA || !window.TRIP_DATA.meta) return;
 
-  alertsEl.innerHTML = `
+  var meta = window.TRIP_DATA.meta;
+  alertEl.innerHTML = `
     <div class="rate-pill-container">
-      <span class="rate-pill">${meta.ratePill}</span>
+      <div class="rate-pill">${meta.ratePill}</div>
     </div>
-    <div class="alert-box">
-      ${meta.budgetAlert}
-    </div>
+    <div class="alert-box">${meta.budgetAlert}</div>
   `;
 }
 
@@ -43,37 +43,52 @@ function renderWalletDashboard() {
     <div class="wallet-dashboard">
       <div class="wallet-header">
         <div class="wallet-title">
-          <span>💼 Travel Wallet &amp; Payment Tracker</span>
+          <span>💼 Travel Wallet &amp; Payment Accounts</span>
         </div>
         <div class="wallet-rate-badge">
           💱 1 RM ≈ ₹<input type="number" step="0.1" value="${stats.exchangeRate}" onchange="onRateChange(this.value)" title="Click to adjust live exchange rate" />
         </div>
       </div>
       <div class="wallet-grid">
+        <!-- 1. Cash in Hand -->
         <div class="wallet-card cash">
           <div class="wc-label">
             <span>💵 Cash in Hand</span>
             <div class="initial-cash-editor" onclick="event.stopPropagation()">
-              <span>Starting: RM</span>
+              <span>Start: RM</span>
               <input type="number" value="${stats.initialCashRm}" onchange="onInitialCashChange(this.value)" title="Edit starting cash in RM" />
             </div>
           </div>
           <div class="wc-val">RM ${stats.remainingCashRm.toLocaleString('en-IN')}</div>
           <div class="wc-sub">
             <span>≈ ₹${stats.remainingCashInr.toLocaleString('en-IN')} remaining</span>
-            <span>Spent: RM ${stats.cashSpentRm} (₹${stats.cashSpentInr.toLocaleString('en-IN')})</span>
+            <span>Spent: RM ${stats.cashSpentRm}</span>
           </div>
         </div>
 
+        <!-- 2. Card / Forex Spend -->
         <div class="wallet-card card">
           <div class="wc-label">
-            <span>💳 Card / Forex Spend</span>
-            <span style="font-size:10.5px;color:var(--blue)">Online &amp; POS</span>
+            <span>💳 Card / Forex</span>
+            <span style="font-size:10px;color:var(--blue)">POS &amp; Swipes</span>
           </div>
           <div class="wc-val">₹${stats.cardSpentInr.toLocaleString('en-IN')}</div>
           <div class="wc-sub">
             <span>≈ RM ${stats.cardSpentRm.toLocaleString('en-IN')} charged</span>
             <span>Zero cash deducted</span>
+          </div>
+        </div>
+
+        <!-- 3. Indian Bank A/C -->
+        <div class="wallet-card bank">
+          <div class="wc-label">
+            <span>🏦 Indian Bank A/C</span>
+            <span style="font-size:10px;color:var(--purple)">UPI / NetBanking</span>
+          </div>
+          <div class="wc-val">₹${stats.bankSpentInr.toLocaleString('en-IN')}</div>
+          <div class="wc-sub">
+            <span>≈ RM ${stats.bankSpentRm.toLocaleString('en-IN')} online bookings</span>
+            <span>Debited in INR</span>
           </div>
         </div>
       </div>
@@ -121,10 +136,10 @@ function renderFixedBookings() {
   window.TRIP_DATA.fixedBookings.forEach(function(b) {
     html += `
       <div class="booking-card">
-        <div class="bc-label">${b.label}</div>
-        <div class="bc-title">${b.title} <span class="tag-confirmed">${b.statusTag}</span></div>
+        <div class="bc-label">${b.label} <span class="tag-confirmed">${b.statusTag}</span></div>
+        <div class="bc-title">${b.title}</div>
         <div class="bc-detail">${b.detail}</div>
-        <div class="bc-price">${b.price} <span style="font-size:13px;color:var(--muted)">${b.priceSub}</span></div>
+        <div class="bc-price">${b.price} <span style="font-size:13px;color:var(--muted);font-family:'DM Sans';">· ${b.priceSub}</span></div>
       </div>
     `;
   });
@@ -133,13 +148,12 @@ function renderFixedBookings() {
   bookingsEl.innerHTML = html;
 }
 
-// Day-Wise Tabs Navigation (Focused Day 1 - Day 5)
 function renderDayTabs() {
   var container = document.getElementById('day-tabs-container');
   if (!container || !window.ITINERARY_DATA) return;
 
   var activeView = window.TripStorage ? window.TripStorage.getActiveView() : 'd1';
-  if (activeView === 'all' || !activeView) activeView = 'd1';
+  if (activeView === 'all') activeView = 'd1';
 
   var html = `<div class="day-tabs-container">`;
 
@@ -185,6 +199,10 @@ function renderTimelineItem(item) {
 
   // 2. Editable Expense Box (for paid items: tickets, food, transport, activities)
   if (item.costInr > 0 || item.costRm > 0 || item.isTicketRequired) {
+    var payBtnLabel = '💵 Cash (RM)';
+    if (exp.paymentMethod === 'card') payBtnLabel = '💳 Card';
+    else if (exp.paymentMethod === 'bank') payBtnLabel = '🏦 Indian Bank';
+
     metaHtml += `
       <div class="expense-control-box" onclick="event.stopPropagation()">
         <span class="expense-label">${item.isTicketRequired ? (isBooked ? 'Paid:' : 'Est:') : 'Cost:'}</span>
@@ -193,8 +211,8 @@ function renderTimelineItem(item) {
         <span class="expense-equiv">(RM ${exp.amountRm})</span>
       </div>
 
-      <button class="pay-method-btn ${exp.paymentMethod}" onclick="togglePaymentMethod('${item.id}', event)" title="Click to toggle payment between Cash and Card">
-        ${exp.paymentMethod === 'cash' ? '💵 Cash (RM)' : '💳 Card'}
+      <button class="pay-method-btn ${exp.paymentMethod}" onclick="togglePaymentMethod('${item.id}', event)" title="Click to rotate payment: Cash -> Card -> Indian Bank">
+        ${payBtnLabel}
       </button>
     `;
   }
@@ -253,10 +271,14 @@ function renderCustomExpenses(dayId) {
   var itemsHtml = '';
   if (list && list.length) {
     list.forEach(function(e) {
+      var tagLabel = '💵 Cash';
+      if (e.paymentMethod === 'card') tagLabel = '💳 Card';
+      else if (e.paymentMethod === 'bank') tagLabel = '🏦 Indian Bank';
+
       itemsHtml += `
         <div class="custom-expense-item">
           <div class="cei-left">
-            <span class="cei-tag ${e.paymentMethod}">${e.paymentMethod === 'cash' ? '💵 Cash' : '💳 Card'}</span>
+            <span class="cei-tag ${e.paymentMethod}">${tagLabel}</span>
             <span class="cei-title">${e.title}</span>
           </div>
           <div class="cei-right">
@@ -281,268 +303,241 @@ function renderCustomExpenses(dayId) {
   `;
 }
 
-function renderDayMap(mapId) {
-  var mapData = window.MAP_DATA ? window.MAP_DATA[mapId] : null;
-  if (!mapData) return '';
-
-  var stopsHtml = '';
-  if (mapData.chipStops && mapData.chipStops.length) {
-    mapData.chipStops.forEach(function(s, idx) {
-      if (idx > 0) {
-        stopsHtml += `<span class="map-stop-arrow">→</span>`;
-      }
-      var numClass = s.isHotel ? 'map-stop-num hotel' : 'map-stop-num';
-      var kmHtml = s.km ? ` <span class="map-stop-km">${s.km}</span>` : '';
-      stopsHtml += `
-        <span class="map-stop">
-          <span class="${numClass}">${s.num}</span> ${s.name}${kmHtml}
-        </span>
-      `;
-    });
-  }
-
-  return `
-    <div class="day-map">
-      <div class="map-header">
-        <span class="map-header-title">🗺 ${mapData.title}</span>
-        <a class="map-open-btn" href="${mapData.googleMapsUrl}" target="_blank">Open in Google Maps ↗</a>
-      </div>
-      <div class="map-stops">
-        ${stopsHtml}
-      </div>
-      <div class="map-leaflet-container" id="${mapId}"></div>
-    </div>
-  `;
-}
-
-// Dedicated Day-Wise Itinerary Viewer
 function renderItinerary() {
   var container = document.getElementById('itinerary-container');
   if (!container || !window.ITINERARY_DATA) return;
 
   var activeView = window.TripStorage ? window.TripStorage.getActiveView() : 'd1';
-  if (activeView === 'all' || !activeView) activeView = 'd1';
+  if (activeView === 'all') activeView = 'd1';
 
   var dayIndex = window.ITINERARY_DATA.findIndex(function(d) { return d.id === activeView; });
-  if (dayIndex === -1) {
-    dayIndex = 0;
-    activeView = 'd1';
-  }
+  if (dayIndex === -1) dayIndex = 0;
+  var day = window.ITINERARY_DATA[dayIndex];
 
-  var currentDay = window.ITINERARY_DATA[dayIndex];
-  var prevDay = dayIndex > 0 ? window.ITINERARY_DATA[dayIndex - 1] : null;
-  var nextDay = dayIndex < window.ITINERARY_DATA.length - 1 ? window.ITINERARY_DATA[dayIndex + 1] : null;
-
-  var badgeClasses = 'day-badge' + (currentDay.badgeClass ? ` ${currentDay.badgeClass}` : '');
-  var badgeStyleAttr = currentDay.badgeStyle ? ` style="${currentDay.badgeStyle}"` : '';
-  var coupleTipHtml = currentDay.coupleTip ? `<div class="tip-box">${currentDay.coupleTip}</div>` : '';
+  var prevDayId = dayIndex > 0 ? window.ITINERARY_DATA[dayIndex - 1].id : null;
+  var nextDayId = dayIndex < window.ITINERARY_DATA.length - 1 ? window.ITINERARY_DATA[dayIndex + 1].id : null;
 
   var timelineHtml = '';
-  if (currentDay.timeline && currentDay.timeline.length) {
-    currentDay.timeline.forEach(function(item) {
+  if (day.timeline && day.timeline.length) {
+    day.timeline.forEach(function(item) {
       timelineHtml += renderTimelineItem(item);
     });
   }
 
-  var customExpHtml = renderCustomExpenses(currentDay.id);
-  var mapHtml = currentDay.mapId ? renderDayMap(currentDay.mapId) : '';
+  var coupleTipHtml = day.coupleTip ? `
+    <div style="background:#20172b;border:1px solid #4a2f60;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#d4a8f8;">
+      ${day.coupleTip}
+    </div>
+  ` : '';
 
-  container.innerHTML = `
+  var customExpensesHtml = renderCustomExpenses(day.id);
+  var mapData = window.MAP_DATA ? window.MAP_DATA[day.mapId] : null;
+  var mapHtml = '';
+
+  if (mapData) {
+    var chipStopsHtml = '';
+    if (mapData.chipStops && mapData.chipStops.length) {
+      mapData.chipStops.forEach(function(s, idx) {
+        var numClass = s.isHotel ? ' hotel' : '';
+        var kmHtml = s.km ? `<span class="map-stop-km">${s.km}</span>` : '';
+        var arrowHtml = idx < mapData.chipStops.length - 1 ? `<span class="map-stop-arrow">→</span>` : '';
+        chipStopsHtml += `
+          <span class="map-stop">
+            <span class="map-stop-num${numClass}">${s.num}</span>
+            <span>${s.name}</span>
+            ${kmHtml}
+            ${arrowHtml}
+          </span>
+        `;
+      });
+    }
+
+    mapHtml = `
+      <div class="day-map">
+        <div class="map-header">
+          <span class="map-header-title">🗺 ${mapData.title.toUpperCase()}</span>
+          <a class="map-open-btn" href="${mapData.googleMapsUrl}" target="_blank">Open in Google Maps ↗</a>
+        </div>
+        ${chipStopsHtml ? `<div class="map-stops">${chipStopsHtml}</div>` : ''}
+        <div class="map-leaflet-container" id="${day.mapId}"></div>
+      </div>
+    `;
+  }
+
+  var html = `
     <div class="day-viewer-nav">
-      <button class="dvn-btn" ${!prevDay ? 'disabled' : ''} onclick="switchView('${prevDay ? prevDay.id : ''}')">
-        ← Day ${prevDay ? prevDay.dayNum : ''}
-      </button>
-      <div class="dvn-title">Day ${currentDay.dayNum} of 5 · ${currentDay.date}</div>
-      <button class="dvn-btn" ${!nextDay ? 'disabled' : ''} onclick="switchView('${nextDay ? nextDay.id : ''}')">
-        Day ${nextDay ? nextDay.dayNum : ''} →
-      </button>
+      <button class="dvn-btn" ${!prevDayId ? 'disabled' : ''} onclick="switchView('${prevDayId || ''}')">← Prev Day</button>
+      <span class="dvn-title">Day ${day.dayNum} of 5</span>
+      <button class="dvn-btn" ${!nextDayId ? 'disabled' : ''} onclick="switchView('${nextDayId || ''}')">Next Day →</button>
     </div>
 
-    <div class="day-card" id="card-${currentDay.id}">
-      <div class="day-header open" style="cursor: default;">
-        <div class="${badgeClasses}"${badgeStyleAttr}>${currentDay.badgeText}</div>
+    <div class="day-card" id="day-${day.id}">
+      <div class="day-header">
+        <span class="day-badge ${day.badgeClass}" ${day.badgeStyle ? `style="${day.badgeStyle}"` : ''}>${day.badgeText}</span>
         <div class="day-title-block">
-          <div class="day-title">${currentDay.title}</div>
-          <div class="day-date">${currentDay.date}</div>
+          <div class="day-title">${day.title}</div>
+          <div class="day-date">${day.date}</div>
         </div>
-        <div class="day-cost-total">${currentDay.costTotal}</div>
+        <div class="day-cost-total">${day.costTotal}</div>
       </div>
-      <div class="day-body open">
+      <div class="day-body">
         ${coupleTipHtml}
-        <div class="timeline">
-          ${timelineHtml}
-        </div>
-        ${customExpHtml}
+        <div class="timeline">${timelineHtml}</div>
+        ${customExpensesHtml}
         ${mapHtml}
       </div>
     </div>
   `;
 
-  setTimeout(function() {
-    if (currentDay.mapId) {
-      initMap(currentDay.mapId);
-    }
-  }, 50);
+  container.innerHTML = html;
+
+  // Initialize Map for focused day
+  if (mapData) {
+    setTimeout(function() {
+      if (window.initMap) {
+        initMap(day.mapId);
+      }
+    }, 50);
+  }
 }
 
 function renderBudgetTable() {
   var container = document.getElementById('budget-container');
-  if (!container || !window.TripStorage) return;
+  if (!container || !window.TripStorage || !window.ITINERARY_DATA) return;
 
   var budget = window.TripStorage.getDynamicBudgetTotals();
   var wallet = window.TripStorage.getWalletStats();
+  var rate = window.TripStorage.getExchangeRate();
 
   var html = `
     <div class="budget-section">
-      <div class="section-title">Complete Budget &amp; Expense Breakdown 💑</div>
+      <div class="section-title">Complete Budget &amp; Expense Breakdown</div>
       <div class="budget-grid">
-        <div class="bg-row header">
-          <div>Category / Item</div>
-          <div class="bg-rm">RM (for 2)</div>
-          <div class="bg-inr">₹ Total (2 pax)</div>
-        </div>
-
-        <!-- FIXED COSTS -->
+        <!-- FIXED PRE-TRIP -->
         <div class="bg-row header" style="background:#12201a;">
-          <div>✅ Confirmed Fixed Costs</div>
-          <div></div>
-          <div class="bg-inr" style="color:var(--green)">₹${budget.fixedPaid.toLocaleString('en-IN')}</div>
-        </div>
-        <div class="bg-row fixed-item">
-          <div>✈ Flights (Kochi ↔ KL, both) · J9JSTV</div>
-          <div class="bg-rm">—</div>
-          <div class="bg-inr" style="color:var(--muted)">₹55,000</div>
-        </div>
-        <div class="bg-row fixed-item">
-          <div>🏨 Hotel 4 nights (room + bfast for 2) · J9JSTV</div>
-          <div class="bg-rm">—</div>
-          <div class="bg-inr" style="color:var(--muted)">₹14,200</div>
-        </div>
-
-        <!-- TICKETED ATTRACTIONS -->
-        <div class="bg-row header">
-          <div>🎟 Attraction Tickets (${budget.bookedTicketed} / ${budget.totalTicketed} Booked)</div>
+          <div>✅ Already Booked &amp; Confirmed</div>
           <div class="bg-rm">RM</div>
-          <div class="bg-inr" style="color:var(--accent)">₹${budget.ticketsTotal.toLocaleString('en-IN')}</div>
+          <div class="bg-inr">₹${budget.fixedPaid.toLocaleString('en-IN')}</div>
+        </div>
+        <div class="bg-row fixed-item">
+          <div>✈ Flights (Kochi ↔ KL, 2 people) · Booking J9JSTV</div>
+          <div class="bg-rm">—</div>
+          <div class="bg-inr">₹55,000</div>
+        </div>
+        <div class="bg-row fixed-item">
+          <div>🏨 Kingston Hotel 8 @ KL Bukit Bintang (4 Nights + Bfast)</div>
+          <div class="bg-rm">—</div>
+          <div class="bg-inr">₹14,200</div>
+        </div>
+
+        <!-- ATTRACTION TICKETS -->
+        <div class="bg-row header">
+          <div>🎟 Attraction Tickets (Paid vs Pending)</div>
+          <div class="bg-rm">RM (couple)</div>
+          <div class="bg-inr">₹ (couple)</div>
         </div>
   `;
 
-  // Render tickets
-  if (window.ITINERARY_DATA) {
-    window.ITINERARY_DATA.forEach(function(day) {
-      if (day.timeline) {
-        day.timeline.forEach(function(item) {
-          if (item.isTicketRequired) {
-            var isBooked = window.TripStorage.isItemBooked(item.id, item.defaultBooked);
-            var exp = window.TripStorage.getItemExpense(item);
-            var statusPill = isBooked
-              ? `<span class="table-status-pill booked">✅ Booked</span>`
-              : `<span class="table-status-pill pending">⏳ Pending</span>`;
-            var payPill = `<span class="table-pay-tag ${exp.paymentMethod}">${exp.paymentMethod === 'cash' ? '💵' : '💳'}</span>`;
+  window.ITINERARY_DATA.forEach(function(day) {
+    if (day.timeline) {
+      day.timeline.forEach(function(item) {
+        if (item.isTicketRequired) {
+          var isBooked = window.TripStorage.isItemBooked(item.id, item.defaultBooked);
+          var exp = window.TripStorage.getItemExpense(item);
+          var statusPill = isBooked
+            ? '<span class="table-status-pill booked">✅ Booked</span>'
+            : '<span class="table-status-pill pending">⏳ Pending</span>';
+          var payTag = `<span class="table-pay-tag ${exp.paymentMethod}">${exp.paymentMethod === 'cash' ? '💵 Cash' : (exp.paymentMethod === 'bank' ? '🏦 Bank' : '💳 Card')}</span>`;
 
-            html += `
-              <div class="bg-row">
-                <div>
-                  ${item.shortName || item.name}
-                  ${statusPill}
-                  ${payPill}
-                </div>
-                <div class="bg-rm">RM ${exp.amountRm}</div>
-                <div class="bg-inr" style="color:${isBooked ? 'var(--green)' : 'var(--accent)'}">
-                  ₹${exp.amountInr.toLocaleString('en-IN')}
-                </div>
-              </div>
-            `;
-          }
-        });
-      }
-    });
-  }
+          html += `
+            <div class="bg-row">
+              <div>${item.shortName || item.name} ${statusPill} ${payTag}</div>
+              <div class="bg-rm">RM ${exp.amountRm}</div>
+              <div class="bg-inr">${isBooked ? '<span style="color:var(--green)">' : ''}₹${exp.amountInr.toLocaleString('en-IN')}${isBooked ? '</span>' : ''}</div>
+            </div>
+          `;
+        }
+      });
+    }
+  });
 
-  // Render Food items
   html += `
-    <div class="bg-row header">
-      <div>🍜 Food &amp; Dining (Itemized Meals)</div>
-      <div class="bg-rm">RM</div>
-      <div class="bg-inr">₹${budget.foodTotal.toLocaleString('en-IN')}</div>
-    </div>
+        <!-- FOOD & DINING MEALS -->
+        <div class="bg-row header">
+          <div>🍜 Food &amp; Dining (Itemized)</div>
+          <div class="bg-rm">RM (couple)</div>
+          <div class="bg-inr">₹ (couple)</div>
+        </div>
   `;
 
-  if (window.ITINERARY_DATA) {
-    window.ITINERARY_DATA.forEach(function(day) {
-      if (day.timeline) {
-        day.timeline.forEach(function(item) {
-          if (item.category === 'food') {
-            var exp = window.TripStorage.getItemExpense(item);
-            var payPill = `<span class="table-pay-tag ${exp.paymentMethod}">${exp.paymentMethod === 'cash' ? '💵 Cash' : '💳 Card'}</span>`;
-            html += `
-              <div class="bg-row">
-                <div>
-                  Day ${day.dayNum}: ${item.shortName || item.name}
-                  ${payPill}
-                </div>
-                <div class="bg-rm">RM ${exp.amountRm}</div>
-                <div class="bg-inr">₹${exp.amountInr.toLocaleString('en-IN')}</div>
-              </div>
-            `;
-          }
-        });
-      }
-    });
-  }
+  window.ITINERARY_DATA.forEach(function(day) {
+    if (day.timeline) {
+      day.timeline.forEach(function(item) {
+        if (item.category === 'food') {
+          var isDone = window.TripStorage.isItemDone(item.id);
+          var exp = window.TripStorage.getItemExpense(item);
+          var doneTag = isDone ? '<span class="table-status-pill booked">✓ Spent</span>' : '';
+          var payTag = `<span class="table-pay-tag ${exp.paymentMethod}">${exp.paymentMethod === 'cash' ? '💵 Cash' : (exp.paymentMethod === 'bank' ? '🏦 Bank' : '💳 Card')}</span>`;
 
-  // Render Transport items
+          html += `
+            <div class="bg-row">
+              <div>Day ${day.dayNum}: ${item.shortName || item.name} ${doneTag} ${payTag}</div>
+              <div class="bg-rm">RM ${exp.amountRm}</div>
+              <div class="bg-inr">${isDone ? '<span style="color:var(--green)">' : ''}₹${exp.amountInr.toLocaleString('en-IN')}${isDone ? '</span>' : ''}</div>
+            </div>
+          `;
+        }
+      });
+    }
+  });
+
   html += `
-    <div class="bg-row header">
-      <div>🚗 Local Transport (Grab / Buses)</div>
-      <div class="bg-rm">RM</div>
-      <div class="bg-inr">₹${budget.transportTotal.toLocaleString('en-IN')}</div>
-    </div>
+        <!-- LOCAL TRANSPORT -->
+        <div class="bg-row header">
+          <div>🚗 Local Transport (Grab / Buses / Trains)</div>
+          <div class="bg-rm">RM (couple)</div>
+          <div class="bg-inr">₹ (couple)</div>
+        </div>
   `;
 
-  if (window.ITINERARY_DATA) {
-    window.ITINERARY_DATA.forEach(function(day) {
-      if (day.timeline) {
-        day.timeline.forEach(function(item) {
-          if (item.category === 'transport') {
-            var exp = window.TripStorage.getItemExpense(item);
-            var payPill = `<span class="table-pay-tag ${exp.paymentMethod}">${exp.paymentMethod === 'cash' ? '💵 Cash' : '💳 Card'}</span>`;
-            html += `
-              <div class="bg-row">
-                <div>
-                  Day ${day.dayNum}: ${item.shortName || item.name}
-                  ${payPill}
-                </div>
-                <div class="bg-rm">RM ${exp.amountRm}</div>
-                <div class="bg-inr">₹${exp.amountInr.toLocaleString('en-IN')}</div>
-              </div>
-            `;
-          }
-        });
-      }
-    });
-  }
+  window.ITINERARY_DATA.forEach(function(day) {
+    if (day.timeline) {
+      day.timeline.forEach(function(item) {
+        if (item.category === 'transport') {
+          var isDone = window.TripStorage.isItemDone(item.id);
+          var exp = window.TripStorage.getItemExpense(item);
+          var doneTag = isDone ? '<span class="table-status-pill booked">✓ Done</span>' : '';
+          var payTag = `<span class="table-pay-tag ${exp.paymentMethod}">${exp.paymentMethod === 'cash' ? '💵 Cash' : (exp.paymentMethod === 'bank' ? '🏦 Bank' : '💳 Card')}</span>`;
 
-  // Extra logged custom expenses
-  if (budget.customTotalInr > 0) {
+          html += `
+            <div class="bg-row">
+              <div>Day ${day.dayNum}: ${item.shortName || item.name} ${doneTag} ${payTag}</div>
+              <div class="bg-rm">RM ${exp.amountRm}</div>
+              <div class="bg-inr">${isDone ? '<span style="color:var(--green)">' : ''}₹${exp.amountInr.toLocaleString('en-IN')}${isDone ? '</span>' : ''}</div>
+            </div>
+          `;
+        }
+      });
+    }
+  });
+
+  // Custom Logged Expenses
+  var customList = window.TripStorage.getState().customExpenses || [];
+  if (customList.length) {
     html += `
-      <div class="bg-row header">
-        <div>➕ Extra Logged Spends</div>
-        <div class="bg-rm">RM</div>
-        <div class="bg-inr">₹${budget.customTotalInr.toLocaleString('en-IN')}</div>
-      </div>
+        <div class="bg-row header">
+          <div>➕ Extra Logged Spends</div>
+          <div class="bg-rm">RM</div>
+          <div class="bg-inr">₹</div>
+        </div>
     `;
-    var customList = window.TripStorage.getCustomExpenses();
     customList.forEach(function(ce) {
-      var payPill = `<span class="table-pay-tag ${ce.paymentMethod}">${ce.paymentMethod === 'cash' ? '💵 Cash' : '💳 Card'}</span>`;
+      var payTag = `<span class="table-pay-tag ${ce.paymentMethod}">${ce.paymentMethod === 'cash' ? '💵 Cash' : (ce.paymentMethod === 'bank' ? '🏦 Bank' : '💳 Card')}</span>`;
       html += `
         <div class="bg-row">
-          <div>
-            ${ce.title} (Day ${ce.dayId.replace('d','')})
-            ${payPill}
-          </div>
+          <div>Day ${ce.dayId.replace('d', '')}: ${ce.title} ${payTag}</div>
           <div class="bg-rm">RM ${ce.amountRm}</div>
-          <div class="bg-inr">₹${ce.amountInr.toLocaleString('en-IN')}</div>
+          <div class="bg-inr" style="color:var(--green)">₹${ce.amountInr.toLocaleString('en-IN')}</div>
         </div>
       `;
     });
@@ -566,9 +561,9 @@ function renderBudgetTable() {
           <div class="bg-inr">₹${budget.miscTotal.toLocaleString('en-IN')}</div>
         </div>
 
-        <!-- WALLET & SPEND STATUS -->
+        <!-- MULTI-CHANNEL WALLET & SPEND STATUS -->
         <div class="bg-row header" style="background:#1a120a;">
-          <div>Wallet &amp; Payment Summary</div>
+          <div>Multi-Channel Payment &amp; Wallet Summary</div>
           <div></div>
           <div></div>
         </div>
@@ -583,7 +578,12 @@ function renderBudgetTable() {
           <div class="bg-inr" style="color:var(--blue)">₹${wallet.cardSpentInr.toLocaleString('en-IN')}</div>
         </div>
         <div class="bg-row fixed-item">
-          <div>Paid So Far (Flights + Hotel + Confirmed Bookings)</div>
+          <div>🏦 Indian Bank A/C Online / NetBanking Spend</div>
+          <div class="bg-rm">RM ${wallet.bankSpentRm}</div>
+          <div class="bg-inr" style="color:var(--purple)">₹${wallet.bankSpentInr.toLocaleString('en-IN')}</div>
+        </div>
+        <div class="bg-row fixed-item">
+          <div>Paid So Far (Flights + Hotel + All Confirmed Spends)</div>
           <div class="bg-rm">—</div>
           <div class="bg-inr" style="color:var(--green)">₹${budget.paidSoFar.toLocaleString('en-IN')}</div>
         </div>
@@ -661,7 +661,7 @@ function renderSummaryRibbon() {
   container.innerHTML = `
     <div class="summary-ribbon">
       <div class="sr-item">
-        <div class="sr-label">Total Spend (2 people)</div>
+        <div class="sr-label">Total Spend (2 pax)</div>
         <div class="sr-val">₹${budget.grandTotal.toLocaleString('en-IN')}</div>
         <div class="sr-sub">flights + hotel + all acts</div>
       </div>
@@ -671,9 +671,14 @@ function renderSummaryRibbon() {
         <div class="sr-sub">₹${wallet.remainingCashInr.toLocaleString('en-IN')} remaining</div>
       </div>
       <div class="sr-item">
-        <div class="sr-label">Card Spend Total</div>
+        <div class="sr-label">Card Total Spend</div>
         <div class="sr-val" style="color:var(--blue)">₹${wallet.cardSpentInr.toLocaleString('en-IN')}</div>
         <div class="sr-sub">RM ${wallet.cardSpentRm} charged</div>
+      </div>
+      <div class="sr-item">
+        <div class="sr-label">Indian Bank Spend</div>
+        <div class="sr-val" style="color:var(--purple)">₹${wallet.bankSpentInr.toLocaleString('en-IN')}</div>
+        <div class="sr-sub">Direct INR debited</div>
       </div>
     </div>
     <div class="footer-text">

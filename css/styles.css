@@ -9,7 +9,7 @@
   --accent2: #e8855a;
   --green: #5ecb8a;
   --blue: #5b9cf6;
-  --purple: #9c6cf7;
+  --purple: #b285f5;
   --text: #e8eaf0;
   --muted: #8b90a8;
   --radius: 12px;
@@ -127,7 +127,7 @@ body {
   color: var(--accent2);
 }
 
-/* Travel Wallet Dashboard Widget */
+/* Travel Wallet Dashboard Widget (3 Channels: Cash, Card, Indian Bank) */
 .wallet-dashboard {
   background: linear-gradient(135deg, #131722, #181d2c);
   border: 1px solid #2c3349;
@@ -141,6 +141,8 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 .wallet-title {
   font-size: 14px;
@@ -169,10 +171,10 @@ body {
 }
 .wallet-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
-@media (max-width: 520px) {
+@media (max-width: 680px) {
   .wallet-grid {
     grid-template-columns: 1fr;
   }
@@ -194,6 +196,10 @@ body {
   border-color: #203550;
   background: #101926;
 }
+.wallet-card.bank {
+  border-color: #4a2f70;
+  background: #171224;
+}
 .wc-label {
   font-size: 11px;
   text-transform: uppercase;
@@ -205,7 +211,7 @@ body {
 }
 .wc-val {
   font-family: 'DM Serif Display', serif;
-  font-size: 1.55rem;
+  font-size: 1.45rem;
   line-height: 1.2;
 }
 .wallet-card.cash .wc-val {
@@ -214,18 +220,23 @@ body {
 .wallet-card.card .wc-val {
   color: var(--blue);
 }
+.wallet-card.bank .wc-val {
+  color: var(--purple);
+}
 .wc-sub {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--muted);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2px;
 }
 .initial-cash-editor {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 11px;
+  gap: 3px;
+  font-size: 10.5px;
   color: var(--muted);
 }
 .initial-cash-editor input {
@@ -234,9 +245,9 @@ body {
   border-radius: 4px;
   color: var(--green);
   font-weight: 700;
-  font-size: 11px;
-  width: 48px;
-  padding: 1px 4px;
+  font-size: 10.5px;
+  width: 44px;
+  padding: 1px 3px;
   text-align: right;
   outline: none;
 }
@@ -784,7 +795,7 @@ body {
   white-space: nowrap;
 }
 
-/* Payment Method Toggle Button (Cash vs Card) */
+/* Payment Method Toggle Button (Cash vs Card vs Bank) */
 .pay-method-btn {
   display: inline-flex;
   align-items: center;
@@ -806,6 +817,11 @@ body {
   background: #121c2e;
   color: var(--blue);
   border-color: #2b4566;
+}
+.pay-method-btn.bank {
+  background: #1c152a;
+  color: var(--purple);
+  border-color: #4a2f70;
 }
 .pay-method-btn:hover {
   filter: brightness(1.2);
@@ -924,6 +940,10 @@ body {
 .cei-tag.card {
   background: #121c2e;
   color: var(--blue);
+}
+.cei-tag.bank {
+  background: #1c152a;
+  color: var(--purple);
 }
 .cei-right {
   display: flex;
@@ -1114,18 +1134,23 @@ body {
   margin-top: 4px;
 }
 
-/* Payment Mode Segmented Selector */
+/* Payment Mode Segmented Selector (3 Options: Cash, Card, Indian Bank) */
 .payment-selector-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
   margin-top: 6px;
+}
+@media (max-width: 480px) {
+  .payment-selector-grid {
+    grid-template-columns: 1fr;
+  }
 }
 .pay-option-card {
   background: var(--surface2);
   border: 1.5px solid var(--border);
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 10px 10px;
   cursor: pointer;
   text-align: left;
   transition: all 0.15s ease;
@@ -1138,12 +1163,16 @@ body {
   border-color: var(--blue);
   background: #121c2e;
 }
+.pay-option-card.selected.bank {
+  border-color: var(--purple);
+  background: #1c152a;
+}
 .poc-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 .pay-option-card.selected.cash .poc-title {
   color: var(--green);
@@ -1151,10 +1180,14 @@ body {
 .pay-option-card.selected.card .poc-title {
   color: var(--blue);
 }
+.pay-option-card.selected.bank .poc-title {
+  color: var(--purple);
+}
 .poc-sub {
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--muted);
   margin-top: 2px;
+  line-height: 1.3;
 }
 
 /* Modal Actions */
@@ -1401,6 +1434,10 @@ body {
   background: #121c2e;
   color: var(--blue);
 }
+.table-pay-tag.bank {
+  background: #1c152a;
+  color: var(--purple);
+}
 
 /* Pro Tips Grid */
 .tips-grid {
@@ -1467,30 +1504,35 @@ body {
   border-radius: var(--radius);
   padding: 20px 24px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
   margin-top: 32px;
   text-align: center;
 }
-@media (max-width: 520px) {
+@media (max-width: 680px) {
+  .summary-ribbon {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 440px) {
   .summary-ribbon {
     grid-template-columns: 1fr;
   }
 }
 .sr-item .sr-label {
-  font-size: 11px;
+  font-size: 10.5px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .sr-item .sr-val {
   font-family: 'DM Serif Display', serif;
-  font-size: 1.6rem;
+  font-size: 1.45rem;
   color: var(--green);
 }
 .sr-item .sr-sub {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--muted);
   margin-top: 2px;
 }

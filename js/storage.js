@@ -1,8 +1,8 @@
 /**
- * State Management & localStorage Persistence with Wallet (Cash in Hand & Card) Engine
+ * State Management & localStorage Persistence with Multi-Channel Wallet (Cash, Card & Indian Bank A/C) Engine
  */
 
-const STORAGE_KEY = 'kl_trip_planner_state_v6';
+const STORAGE_KEY = 'kl_trip_planner_state_v7';
 
 window.TripStorage = {
   getState: function() {
@@ -101,7 +101,7 @@ window.TripStorage = {
     return !current;
   },
 
-  // Item Expense (Amount in INR/RM + Cash/Card Payment Method)
+  // Item Expense (Amount in INR/RM + Payment Method: cash, card, bank)
   getItemExpense: function(item) {
     var state = this.getState();
     var rate = this.getExchangeRate();
@@ -156,12 +156,16 @@ window.TripStorage = {
     this.saveState(state);
   },
 
+  // Rotates: cash -> card -> bank -> cash
   toggleItemPaymentMethod: function(item) {
     var state = this.getState();
     if (!state.expenses) state.expenses = {};
 
     var currentExpense = this.getItemExpense(item);
-    var newMethod = currentExpense.paymentMethod === 'cash' ? 'card' : 'cash';
+    var methods = ['cash', 'card', 'bank'];
+    var currentIdx = methods.indexOf(currentExpense.paymentMethod);
+    if (currentIdx === -1) currentIdx = 0;
+    var newMethod = methods[(currentIdx + 1) % methods.length];
 
     state.expenses[item.id] = {
       amountInr: currentExpense.amountInr,
@@ -228,7 +232,7 @@ window.TripStorage = {
   // Active Tab View
   getActiveView: function() {
     var state = this.getState();
-    return state.activeView || 'all';
+    return state.activeView || 'd1';
   },
 
   setActiveView: function(viewId) {
@@ -237,7 +241,7 @@ window.TripStorage = {
     this.saveState(state);
   },
 
-  // Comprehensive Wallet Calculations (Only counts as spent when marked Done or Booked!)
+  // Comprehensive Multi-Channel Wallet Calculations (Cash, Card, Indian Bank A/C)
   getWalletStats: function() {
     var state = this.getState();
     var rate = this.getExchangeRate();
@@ -246,6 +250,7 @@ window.TripStorage = {
 
     var cashSpentRm = 0;
     var cardSpentInr = 0;
+    var bankSpentInr = 0;
 
     // Sum from itinerary timeline items:
     // Only counted as actually spent if marked Booked (for tickets) or Done (for meals/transport)
@@ -264,6 +269,8 @@ window.TripStorage = {
               var exp = window.TripStorage.getItemExpense(item);
               if (exp.paymentMethod === 'cash') {
                 cashSpentRm += exp.amountRm;
+              } else if (exp.paymentMethod === 'bank') {
+                bankSpentInr += exp.amountInr;
               } else {
                 cardSpentInr += exp.amountInr;
               }
@@ -278,6 +285,8 @@ window.TripStorage = {
     customList.forEach(function(ce) {
       if (ce.paymentMethod === 'cash') {
         cashSpentRm += (ce.amountRm || 0);
+      } else if (ce.paymentMethod === 'bank') {
+        bankSpentInr += (ce.amountInr || 0);
       } else {
         cardSpentInr += (ce.amountInr || 0);
       }
@@ -296,6 +305,8 @@ window.TripStorage = {
       remainingCashInr: remainingCashInr,
       cardSpentInr: cardSpentInr,
       cardSpentRm: rate > 0 ? Math.round((cardSpentInr / rate) * 10) / 10 : 0,
+      bankSpentInr: bankSpentInr,
+      bankSpentRm: rate > 0 ? Math.round((bankSpentInr / rate) * 10) / 10 : 0,
       exchangeRate: rate
     };
   },
@@ -351,9 +362,9 @@ window.TripStorage = {
     var additionalSpend = ticketsTotal + foodTotal + transportTotal + activitiesOtherTotal + shoppingTotal + miscTotal + customTotalInr;
     var grandTotal = fixedPaid + additionalSpend;
 
-    // Paid so far = Flights & Hotel (Fixed) + all logged cash & card spent
+    // Paid so far = Flights & Hotel (Fixed) + all logged cash, card, and Indian bank spend
     var walletStats = this.getWalletStats();
-    var paidSoFar = fixedPaid + walletStats.cashSpentInr + walletStats.cardSpentInr;
+    var paidSoFar = fixedPaid + walletStats.cashSpentInr + walletStats.cardSpentInr + walletStats.bankSpentInr;
     var remainingToSpend = Math.max(0, grandTotal - paidSoFar);
 
     return {
