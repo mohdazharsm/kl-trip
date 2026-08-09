@@ -97,7 +97,7 @@ body {
 /* Rate Pill & Alert */
 .rate-pill-container {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .rate-pill {
   background: var(--surface2);
@@ -125,6 +125,120 @@ body {
 }
 .alert-box strong {
   color: var(--accent2);
+}
+
+/* Travel Wallet Dashboard Widget */
+.wallet-dashboard {
+  background: linear-gradient(135deg, #131722, #181d2c);
+  border: 1px solid #2c3349;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+.wallet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.wallet-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.wallet-rate-badge {
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--surface2);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+.wallet-rate-badge input {
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-weight: 700;
+  width: 42px;
+  text-align: center;
+  outline: none;
+}
+.wallet-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 520px) {
+  .wallet-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.wallet-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.wallet-card.cash {
+  border-color: #234838;
+  background: #111a16;
+}
+.wallet-card.card {
+  border-color: #203550;
+  background: #101926;
+}
+.wc-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wc-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.55rem;
+  line-height: 1.2;
+}
+.wallet-card.cash .wc-val {
+  color: var(--green);
+}
+.wallet-card.card .wc-val {
+  color: var(--blue);
+}
+.wc-sub {
+  font-size: 11.5px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.initial-cash-editor {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.initial-cash-editor input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--green);
+  font-weight: 700;
+  font-size: 11px;
+  width: 48px;
+  padding: 1px 4px;
+  text-align: right;
+  outline: none;
 }
 
 /* Trip Progress Tracker */
@@ -611,8 +725,8 @@ body {
   filter: brightness(1.15);
 }
 
-/* Actual Spend Editable Input Box */
-.actual-spend-container {
+/* Interactive Expense Logger Controls */
+.expense-control-box {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -621,18 +735,23 @@ body {
   border-radius: 6px;
   padding: 2px 8px;
   font-size: 12px;
+  flex-wrap: nowrap;
 }
-.actual-spend-label {
+.expense-label {
   color: var(--muted);
   font-size: 11px;
   font-weight: 500;
 }
-.actual-spend-prefix {
-  color: var(--green);
+.expense-currency-tag {
+  color: var(--accent);
   font-weight: 700;
-  font-size: 12px;
+  font-size: 11.5px;
+  user-select: none;
+  padding: 1px 3px;
+  border-radius: 3px;
+  background: rgba(247, 201, 72, 0.12);
 }
-.actual-spend-input {
+.expense-input {
   background: transparent;
   border: none;
   border-bottom: 1px dashed var(--accent);
@@ -640,19 +759,51 @@ body {
   font-family: inherit;
   font-size: 13px;
   font-weight: 700;
-  width: 68px;
+  width: 62px;
   padding: 1px 2px;
   text-align: right;
   outline: none;
 }
-.actual-spend-input:focus {
+.expense-input:focus {
   border-bottom: 1.5px solid var(--green);
   background: rgba(94, 203, 138, 0.08);
 }
-.actual-spend-input::-webkit-inner-spin-button,
-.actual-spend-input::-webkit-outer-spin-button {
+.expense-input::-webkit-inner-spin-button,
+.expense-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.expense-equiv {
+  font-size: 10.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Payment Method Toggle Button (Cash vs Card) */
+.pay-method-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+.pay-method-btn.cash {
+  background: #112217;
+  color: var(--green);
+  border-color: #245838;
+}
+.pay-method-btn.card {
+  background: #121c2e;
+  color: var(--blue);
+  border-color: #2b4566;
+}
+.pay-method-btn:hover {
+  filter: brightness(1.2);
 }
 
 .book-btn {
@@ -692,6 +843,345 @@ body {
 }
 .tip-box strong {
   color: var(--blue);
+}
+
+/* Custom Day Expense Logger */
+.custom-expense-section {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+}
+.custom-expense-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.custom-expense-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.add-expense-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+.add-expense-btn:hover {
+  background: #252b40;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.custom-expense-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.custom-expense-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+}
+.cei-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cei-title {
+  font-weight: 500;
+}
+.cei-tag {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+.cei-tag.cash {
+  background: #112217;
+  color: var(--green);
+}
+.cei-tag.card {
+  background: #121c2e;
+  color: var(--blue);
+}
+.cei-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cei-amount {
+  font-weight: 700;
+  color: var(--green);
+}
+.cei-delete {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 4px;
+}
+.cei-delete:hover {
+  color: var(--accent2);
+}
+
+/* Custom Expense Modal / Dialog UI */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(8, 10, 15, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+.modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+.modal-card {
+  background: #181c27;
+  border: 1px solid #2c3349;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 440px;
+  padding: 22px 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+  transform: scale(0.94) translateY(10px);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.modal-backdrop.active .modal-card {
+  transform: scale(1) translateY(0);
+}
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.modal-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
+.modal-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.modal-close-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+.modal-close-btn:hover {
+  color: #fff;
+  border-color: var(--accent2);
+}
+
+/* Quick Suggestion Chips */
+.quick-chips-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+  scrollbar-width: none;
+}
+.quick-chips-row::-webkit-scrollbar {
+  display: none;
+}
+.quick-chip {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.quick-chip:hover {
+  background: #252c42;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Form Controls */
+.modal-form-group {
+  margin-bottom: 14px;
+}
+.modal-form-label {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 6px;
+  display: block;
+  font-weight: 600;
+}
+.modal-input-text {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.modal-input-text:focus {
+  border-color: var(--accent);
+}
+
+/* Amount with Currency Toggle */
+.amount-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.currency-selector-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 10px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.modal-amount-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--green);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  outline: none;
+}
+.modal-amount-input:focus {
+  border-color: var(--green);
+}
+.amount-conversion-preview {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* Payment Mode Segmented Selector */
+.payment-selector-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 6px;
+}
+.pay-option-card {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+.pay-option-card.selected.cash {
+  border-color: var(--green);
+  background: #112217;
+}
+.pay-option-card.selected.card {
+  border-color: var(--blue);
+  background: #121c2e;
+}
+.poc-title {
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pay-option-card.selected.cash .poc-title {
+  color: var(--green);
+}
+.pay-option-card.selected.card .poc-title {
+  color: var(--blue);
+}
+.poc-sub {
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+.btn-secondary {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--green);
+  border: none;
+  color: #111;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-primary:hover {
+  opacity: 0.9;
 }
 
 /* Map Component */
@@ -833,10 +1323,10 @@ body {
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: 12px;
-  padding: 13px 18px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--border);
   align-items: center;
-  font-size: 14px;
+  font-size: 13.5px;
 }
 .bg-row:last-child {
   border-bottom: none;
@@ -860,7 +1350,7 @@ body {
 }
 .bg-rm {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12.5px;
   text-align: right;
   white-space: nowrap;
 }
@@ -889,6 +1379,22 @@ body {
 .table-status-pill.pending {
   background: #2a1f10;
   color: var(--accent);
+}
+.table-pay-tag {
+  font-size: 9.5px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  margin-left: 4px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+.table-pay-tag.cash {
+  background: #112217;
+  color: var(--green);
+}
+.table-pay-tag.card {
+  background: #121c2e;
+  color: var(--blue);
 }
 
 /* Pro Tips Grid */

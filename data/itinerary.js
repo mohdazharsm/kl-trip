@@ -1,6 +1,6 @@
 /**
  * Structured Itinerary Data for Days 1 to 5
- * All activities default to NOT booked (defaultBooked: false) with direct booking links
+ * Includes category, default costs (INR & RM), payment methods, and ticket flags
  */
 window.ITINERARY_DATA = [
   {
@@ -17,6 +17,7 @@ window.ITINERARY_DATA = [
       {
         id: "d1-klia-express",
         shortName: "✈ KLIA Ekspres Arrival (Airport → City)",
+        category: "ticket",
         time: "5:30 AM",
         dotClass: "tour",
         name: "🛬 Land at KLIA · Take KLIA Ekspres",
@@ -25,6 +26,7 @@ window.ITINERARY_DATA = [
         defaultBooked: false,
         costInr: 2563,
         costRm: 110,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "RM 55 × 2 = RM 110 · ₹2,563", class: "paid" },
           { text: "₹1,281/person", class: "pp" }
@@ -36,6 +38,7 @@ window.ITINERARY_DATA = [
       {
         id: "d1-hotel-rest",
         shortName: "🛏 Hotel Check-In & Breakfast",
+        category: "free",
         time: "9 AM –3 PM",
         dotClass: "free",
         name: "🛏 Check Bags · Rest · Check-In at 3 PM",
@@ -43,6 +46,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "FREE (breakfast for 2 included)", class: "free" }
         ]
@@ -50,6 +54,7 @@ window.ITINERARY_DATA = [
       {
         id: "d1-klcc-park",
         shortName: "🏙 KLCC Park Stroll",
+        category: "free",
         time: "3:30 PM",
         dotClass: "",
         name: "🏙 KLCC Park Stroll — Free & Gorgeous",
@@ -57,6 +62,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "FREE", class: "free" }
         ]
@@ -64,6 +70,7 @@ window.ITINERARY_DATA = [
       {
         id: "d1-petronas-towers",
         shortName: "🌆 Petronas Twin Towers (Skybridge + Obs Deck)",
+        category: "ticket",
         time: "4:30 PM",
         dotClass: "",
         name: "🌆 PETRONAS Twin Towers — Skybridge + Observation Deck",
@@ -72,6 +79,7 @@ window.ITINERARY_DATA = [
         defaultBooked: false,
         costInr: 7084,
         costRm: 304,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "RM 152 × 2 = RM 304 · ₹7,084", class: "paid" },
           { text: "₹3,542/person", class: "pp" }
@@ -85,6 +93,7 @@ window.ITINERARY_DATA = [
       {
         id: "d1-fountain-show",
         shortName: "⛲ KLCC Fountain Light Show",
+        category: "free",
         time: "8 PM",
         dotClass: "free",
         name: "⛲ KLCC Fountain Light Show — Free!",
@@ -92,6 +101,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "FREE", class: "free" }
         ]
@@ -99,13 +109,15 @@ window.ITINERARY_DATA = [
       {
         id: "d1-jalan-alor",
         shortName: "🍜 Jalan Alor Food Street (Dinner)",
+        category: "food",
         time: "9 PM",
         dotClass: "food",
         name: "🍜 First Dinner — Jalan Alor Food Street",
         desc: "10-min walk from your hotel — KL's most famous hawker street fires up at dusk. Try char kway teow, chicken wings, satay, and Hokkien mee. Order a few dishes to share. Cash preferred — small RM notes.",
         isTicketRequired: false,
-        costInr: 1600,
+        costInr: 1631,
         costRm: 70,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "~RM 60–80 for 2 · ₹1,400–1,864", class: "food" }
         ]
@@ -125,6 +137,7 @@ window.ITINERARY_DATA = [
       {
         id: "d2-breakfast",
         shortName: "☕ Hotel Breakfast",
+        category: "free",
         time: "9 AM",
         dotClass: "free",
         name: "☕ Breakfast at Hotel — for 2",
@@ -132,6 +145,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "FREE (included for 2)", class: "free" }
         ]
@@ -139,6 +153,7 @@ window.ITINERARY_DATA = [
       {
         id: "d2-forest-eco",
         shortName: "🌿 KL Forest Eco Park (Canopy Walk)",
+        category: "activity",
         time: "10 AM",
         dotClass: "free",
         name: "🌿 KL Forest Eco Park — Canopy Walk",
@@ -146,6 +161,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 233,
         costRm: 10,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "~FREE – RM 5–10 · ₹120–235", class: "free" }
         ],
@@ -157,6 +173,7 @@ window.ITINERARY_DATA = [
       {
         id: "d2-masjid-wilayah",
         shortName: "🕌 Masjid Wilayah (Blue Mosque)",
+        category: "free",
         time: "11:30 AM",
         dotClass: "free",
         name: "🕌 Masjid Wilayah — KL's Blue Mosque",
@@ -164,6 +181,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "FREE Entry", class: "free" }
         ],
@@ -175,6 +193,7 @@ window.ITINERARY_DATA = [
       {
         id: "d2-brickfields-lunch",
         shortName: "🍛 Brickfields Little India Lunch",
+        category: "food",
         time: "1 PM",
         dotClass: "food",
         name: "🍛 Lunch — Brickfields / Little India",
@@ -182,20 +201,23 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 932,
         costRm: 40,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "~RM 30–50 for 2 · ₹700–1,165", class: "food" }
         ]
       },
       {
         id: "d2-thean-hou",
-        shortName: "🏮 Thean Hou Temple",
+        shortName: "🏮 Thean Hou Temple (Grab Return)",
+        category: "transport",
         time: "2:30 PM",
         dotClass: "free",
         name: "🏮 Thean Hou Temple",
         desc: "15 min Grab from Brickfields. Six-tier Chinese temple with dragon carvings, colourful lanterns, and panoramic KL skyline views from the hilltop. Afternoon light is great for photography — the lanterns glow as dusk approaches.",
         isTicketRequired: false,
-        costInr: 0,
-        costRm: 0,
+        costInr: 932,
+        costRm: 40,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "FREE Entry", class: "free" },
           { text: "Grab both ways: ~RM 40 · ₹932", class: "paid" }
@@ -207,6 +229,7 @@ window.ITINERARY_DATA = [
       {
         id: "d2-chinatown",
         shortName: "🏮 Chinatown & Petaling Street",
+        category: "free",
         time: "4 PM",
         dotClass: "free",
         name: "🏮 Chinatown — Petaling Street + Central Market",
@@ -214,6 +237,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "FREE to explore", class: "free" }
         ],
@@ -223,7 +247,8 @@ window.ITINERARY_DATA = [
       },
       {
         id: "d2-pavilion-mall",
-        shortName: "🛍 Pavilion KL Mall",
+        shortName: "🛍 Pavilion KL Mall Window Shopping",
+        category: "free",
         time: "6 PM",
         dotClass: "tour",
         name: "🛍 Pavilion KL Mall — Shopping + Stroll",
@@ -231,6 +256,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "FREE to browse", class: "free" },
           { text: "Shopping from your ₹10,000 budget", class: "paid" }
@@ -239,13 +265,15 @@ window.ITINERARY_DATA = [
       {
         id: "d2-changkat-dinner",
         shortName: "🍻 Changkat Bukit Bintang Dinner",
+        category: "food",
         time: "8 PM",
         dotClass: "food",
         name: "🍻 Dinner — Changkat Bukit Bintang",
         desc: "2 min walk from Pavilion, right by your hotel. KL's best bar-and-restaurant street — a relaxed way to close a full cultural day without heading back out to KLCC. Try View Rooftop Bar or Pisco Bar for skyline views with dinner, or a quieter sit-down restaurant if you'd rather wind down.",
         isTicketRequired: false,
-        costInr: 1747,
+        costInr: 1748,
         costRm: 75,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "Dinner for 2 ~RM 60–90 · ₹1,398–2,097", class: "food" }
         ]
@@ -267,6 +295,7 @@ window.ITINERARY_DATA = [
       {
         id: "d3-grab-batu",
         shortName: "🚗 Grab to Batu Caves",
+        category: "transport",
         time: "6:45 AM",
         dotClass: "tour",
         name: "🚗 Leave Hotel — Grab to Batu Caves",
@@ -274,6 +303,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 815,
         costRm: 35,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "Grab ~RM 35 · ₹815 for 2", class: "paid" }
         ]
@@ -281,6 +311,7 @@ window.ITINERARY_DATA = [
       {
         id: "d3-batu-caves",
         shortName: "🕌 Batu Caves & Ramayana Cave",
+        category: "activity",
         time: "7:30–11:30 AM",
         dotClass: "free",
         name: "🕌 Batu Caves — Relaxed Full Visit",
@@ -288,6 +319,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 466,
         costRm: 20,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "Main Cave: FREE", class: "free" },
           { text: "Ramayana Cave/Cave Villa: ~RM 20 for 2", class: "paid" }
@@ -296,7 +328,8 @@ window.ITINERARY_DATA = [
       },
       {
         id: "d3-grab-zoo",
-        shortName: "🚗 Grab from Batu Caves to Zoo Negara",
+        shortName: "🚗 Grab to Zoo Negara",
+        category: "transport",
         time: "11:30 AM",
         dotClass: "tour",
         name: "🚗 Grab to Zoo Negara",
@@ -304,6 +337,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 583,
         costRm: 25,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "Grab ~RM 25 · ₹583 for 2", class: "paid" }
         ]
@@ -311,6 +345,7 @@ window.ITINERARY_DATA = [
       {
         id: "d3-zoo-negara",
         shortName: "🦁 Zoo Negara & Giant Panda Centre",
+        category: "ticket",
         time: "12–4 PM",
         dotClass: "free",
         name: "🦁 Zoo Negara — Malaysia's National Zoo",
@@ -319,6 +354,7 @@ window.ITINERARY_DATA = [
         defaultBooked: false,
         costInr: 3914,
         costRm: 168,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "~RM 84 × 2 = RM 168 · ₹3,914 for couple", class: "paid" }
         ],
@@ -329,6 +365,7 @@ window.ITINERARY_DATA = [
       {
         id: "d3-grab-hotel",
         shortName: "🚗 Grab from Zoo to Bukit Bintang",
+        category: "transport",
         time: "4–4:30 PM",
         dotClass: "tour",
         name: "🚗 Grab Back to Bukit Bintang",
@@ -336,6 +373,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 700,
         costRm: 30,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "Grab ~RM 30 · ₹700 for 2", class: "paid" }
         ]
@@ -343,6 +381,7 @@ window.ITINERARY_DATA = [
       {
         id: "d3-hotel-freshen",
         shortName: "🧼 Hotel Refresh",
+        category: "free",
         time: "6:30 PM",
         dotClass: "free",
         name: "🧼 Freshen Up at Hotel",
@@ -350,13 +389,15 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "FREE", class: "free" }
         ]
       },
       {
         id: "d3-night-dinner",
-        shortName: "🍜 Petaling Street / Jalan Alor Dinner",
+        shortName: "🍜 Chinatown / Jalan Alor Dinner",
+        category: "food",
         time: "8 PM",
         dotClass: "food",
         name: "🍜 Evening — Petaling Street / Jalan Alor",
@@ -364,6 +405,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 1398,
         costRm: 60,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "Dinner for 2 ~RM 50–70 · ₹1,165–1,630", class: "food" }
         ]
@@ -385,6 +427,7 @@ window.ITINERARY_DATA = [
       {
         id: "d4-genting-bus",
         shortName: "🚌 Genting Return Bus Transfer",
+        category: "ticket",
         time: "8:30 AM",
         dotClass: "tour",
         name: "🚌 Head to Genting from KL Sentral",
@@ -393,6 +436,7 @@ window.ITINERARY_DATA = [
         defaultBooked: false,
         costInr: 932,
         costRm: 40,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "Bus RT for 2: ~RM 40 · ₹932", class: "paid" }
         ],
@@ -403,6 +447,7 @@ window.ITINERARY_DATA = [
       {
         id: "d4-cable-car",
         shortName: "🚡 Awana SkyWay Cable Car (Round-Trip)",
+        category: "ticket",
         time: "10 AM",
         dotClass: "",
         name: "🚡 Awana SkyWay Cable Car — Together!",
@@ -411,6 +456,7 @@ window.ITINERARY_DATA = [
         defaultBooked: false,
         costInr: 2563,
         costRm: 110,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "RM 55 × 2 RT = RM 110 · ₹2,563", class: "paid" },
           { text: "₹1,281/person", class: "pp" }
@@ -421,7 +467,8 @@ window.ITINERARY_DATA = [
       },
       {
         id: "d4-skyavenue",
-        shortName: "🎢 SkyAvenue & Chin Swee Temple",
+        shortName: "🎢 SkyAvenue Food Court Lunch",
+        category: "food",
         time: "11 AM –3 PM",
         dotClass: "tour",
         name: "🎢 SkyAvenue + Chin Swee Temple + Premium Outlets",
@@ -429,6 +476,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 1398,
         costRm: 60,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "Lunch for 2 ~RM 60 · ₹1,398", class: "food" },
           { text: "Temple + Outlets: FREE", class: "free" }
@@ -436,21 +484,24 @@ window.ITINERARY_DATA = [
       },
       {
         id: "d4-return-kl",
-        shortName: "🚌 Genting Return to KLCC",
+        shortName: "🚌 Return Grab from KL Sentral to KLCC",
+        category: "transport",
         time: "4 PM",
         dotClass: "tour",
         name: "🚌 Return to KL → KLCC",
         desc: "Bus back to KL Sentral then Grab to KLCC area.",
         isTicketRequired: false,
-        costInr: 1398,
-        costRm: 60,
+        costInr: 466,
+        costRm: 20,
+        defaultPaymentMethod: "card",
         badges: [
-          { text: "~RM 40 + RM 20 Grab · ₹1,398 for 2", class: "paid" }
+          { text: "~RM 20 Grab · ₹466 for 2", class: "paid" }
         ]
       },
       {
         id: "d4-aquaria-klcc",
         shortName: "🐠 Aquaria KLCC Underwater World",
+        category: "ticket",
         time: "6 PM",
         dotClass: "",
         name: "🐠 Aquaria KLCC — Underwater World Together",
@@ -459,6 +510,7 @@ window.ITINERARY_DATA = [
         defaultBooked: false,
         costInr: 3728,
         costRm: 160,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "RM 80 × 2 = RM 160 · ₹3,728", class: "paid" },
           { text: "₹1,864/person", class: "pp" }
@@ -471,6 +523,7 @@ window.ITINERARY_DATA = [
       {
         id: "d4-special-dinner",
         shortName: "🌟 Special Last Night Dinner",
+        category: "food",
         time: "9 PM",
         dotClass: "food",
         name: "🌟 Special Last Night Dinner",
@@ -478,6 +531,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 3495,
         costRm: 150,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "Dinner for 2 ~RM 100–200 · ₹2,330–4,660", class: "food" }
         ]
@@ -497,6 +551,7 @@ window.ITINERARY_DATA = [
       {
         id: "d5-hotel-checkout",
         shortName: "☕ Final Breakfast & Hotel Checkout",
+        category: "free",
         time: "9 AM",
         dotClass: "free",
         name: "☕ Final Hotel Breakfast for 2 + Checkout by 12 PM",
@@ -504,6 +559,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
+        defaultPaymentMethod: "cash",
         badges: [
           { text: "FREE (included for 2)", class: "free" }
         ]
@@ -511,6 +567,7 @@ window.ITINERARY_DATA = [
       {
         id: "d5-final-shopping",
         shortName: "🛍 Final Shopping (Pavilion / Lot 10)",
+        category: "activity",
         time: "12–4 PM",
         dotClass: "",
         name: "🛍 Final Shopping — Pavilion + Bukit Bintang",
@@ -518,6 +575,7 @@ window.ITINERARY_DATA = [
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "Shopping: <₹10,000 total (your cap)", class: "paid" }
         ]
@@ -525,6 +583,7 @@ window.ITINERARY_DATA = [
       {
         id: "d5-klia-express",
         shortName: "✈ KLIA Ekspres Departure (City → Airport)",
+        category: "ticket",
         time: "4:30 PM",
         dotClass: "tour",
         name: "✈ Head to KLIA — KLIA Ekspres from KL Sentral",
@@ -533,6 +592,7 @@ window.ITINERARY_DATA = [
         defaultBooked: false,
         costInr: 2563,
         costRm: 110,
+        defaultPaymentMethod: "card",
         badges: [
           { text: "RM 55 × 2 = RM 110 · ₹2,563 for couple", class: "paid" }
         ],

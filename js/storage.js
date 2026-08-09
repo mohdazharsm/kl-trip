@@ -1,8 +1,8 @@
 /**
- * State Management & localStorage Persistence with Dynamic Budget Calculations
+ * State Management & localStorage Persistence with Wallet (Cash in Hand & Card) Engine
  */
 
-const STORAGE_KEY = 'kl_trip_planner_state_v3';
+const STORAGE_KEY = 'kl_trip_planner_state_v6';
 
 window.TripStorage = {
   getState: function() {
@@ -17,8 +17,13 @@ window.TripStorage = {
     return {
       done: {},
       booked: {},
-      actualSpend: {},
-      activeView: 'all'
+      expenses: {},
+      customExpenses: [],
+      wallet: {
+        initialCashRm: 500,
+        exchangeRate: 23.30
+      },
+      activeView: 'd1'
     };
   },
 
@@ -30,6 +35,32 @@ window.TripStorage = {
     }
   },
 
+  // Exchange rate & Initial Cash
+  getExchangeRate: function() {
+    var state = this.getState();
+    return (state.wallet && state.wallet.exchangeRate) ? Number(state.wallet.exchangeRate) : 23.30;
+  },
+
+  setExchangeRate: function(rate) {
+    var state = this.getState();
+    if (!state.wallet) state.wallet = {};
+    state.wallet.exchangeRate = Number(rate) || 23.30;
+    this.saveState(state);
+  },
+
+  getInitialCashRm: function() {
+    var state = this.getState();
+    return (state.wallet && typeof state.wallet.initialCashRm !== 'undefined') ? Number(state.wallet.initialCashRm) : 500;
+  },
+
+  setInitialCashRm: function(rm) {
+    var state = this.getState();
+    if (!state.wallet) state.wallet = {};
+    state.wallet.initialCashRm = Math.max(0, Number(rm) || 0);
+    this.saveState(state);
+  },
+
+  // Checklist Done state
   isItemDone: function(itemId) {
     var state = this.getState();
     return !!(state.done && state.done[itemId]);
@@ -48,6 +79,7 @@ window.TripStorage = {
     return !current;
   },
 
+  // Booking state for tickets
   isItemBooked: function(itemId, defaultVal) {
     var state = this.getState();
     if (state.booked && typeof state.booked[itemId] !== 'undefined') {
@@ -69,22 +101,131 @@ window.TripStorage = {
     return !current;
   },
 
-  getActualSpend: function(itemId, defaultInr) {
+  // Item Expense (Amount in INR/RM + Cash/Card Payment Method)
+  getItemExpense: function(item) {
     var state = this.getState();
-    if (state.actualSpend && typeof state.actualSpend[itemId] !== 'undefined' && state.actualSpend[itemId] !== null && state.actualSpend[itemId] !== '') {
-      var num = Number(state.actualSpend[itemId]);
-      return isNaN(num) ? (defaultInr || 0) : num;
+    var rate = this.getExchangeRate();
+    var saved = (state.expenses && state.expenses[item.id]) ? state.expenses[item.id] : null;
+
+    if (saved) {
+      return {
+        amountInr: saved.amountInr,
+        amountRm: saved.amountRm,
+        paymentMethod: saved.paymentMethod || item.defaultPaymentMethod || 'cash',
+        isEdited: true
+      };
     }
-    return (typeof defaultInr === 'number') ? defaultInr : 0;
+
+    var defaultInr = item.costInr || 0;
+    var defaultRm = item.costRm || (defaultInr > 0 ? Math.round(defaultInr / rate) : 0);
+
+    return {
+      amountInr: defaultInr,
+      amountRm: defaultRm,
+      paymentMethod: item.defaultPaymentMethod || (item.category === 'food' ? 'cash' : 'card'),
+      isEdited: false
+    };
   },
 
-  setActualSpend: function(itemId, amount) {
+  setItemExpenseAmount: function(itemId, amount, inputCurrency) {
     var state = this.getState();
-    if (!state.actualSpend) state.actualSpend = {};
-    state.actualSpend[itemId] = (amount === '' || isNaN(Number(amount))) ? null : Number(amount);
+    var rate = this.getExchangeRate();
+    if (!state.expenses) state.expenses = {};
+
+    var num = Math.max(0, Number(amount) || 0);
+    var amountInr = 0;
+    var amountRm = 0;
+
+    if (inputCurrency === 'RM') {
+      amountRm = num;
+      amountInr = Math.round(num * rate);
+    } else {
+      amountInr = num;
+      amountRm = rate > 0 ? Math.round((num / rate) * 10) / 10 : 0;
+    }
+
+    var currentMethod = (state.expenses[itemId] && state.expenses[itemId].paymentMethod) || 'cash';
+
+    state.expenses[itemId] = {
+      amountInr: amountInr,
+      amountRm: amountRm,
+      paymentMethod: currentMethod,
+      isEdited: true
+    };
+
     this.saveState(state);
   },
 
+  toggleItemPaymentMethod: function(item) {
+    var state = this.getState();
+    if (!state.expenses) state.expenses = {};
+
+    var currentExpense = this.getItemExpense(item);
+    var newMethod = currentExpense.paymentMethod === 'cash' ? 'card' : 'cash';
+
+    state.expenses[item.id] = {
+      amountInr: currentExpense.amountInr,
+      amountRm: currentExpense.amountRm,
+      paymentMethod: newMethod,
+      isEdited: true
+    };
+
+    this.saveState(state);
+    return newMethod;
+  },
+
+  // Custom Quick Expenses on each day
+  getCustomExpenses: function(dayId) {
+    var state = this.getState();
+    var all = state.customExpenses || [];
+    if (dayId) {
+      return all.filter(function(e) { return e.dayId === dayId; });
+    }
+    return all;
+  },
+
+  addCustomExpense: function(dayId, title, amount, currency, paymentMethod, category) {
+    var state = this.getState();
+    if (!state.customExpenses) state.customExpenses = [];
+
+    var rate = this.getExchangeRate();
+    var num = Math.max(0, Number(amount) || 0);
+    var amountInr = 0;
+    var amountRm = 0;
+
+    if (currency === 'RM') {
+      amountRm = num;
+      amountInr = Math.round(num * rate);
+    } else {
+      amountInr = num;
+      amountRm = rate > 0 ? Math.round((num / rate) * 10) / 10 : 0;
+    }
+
+    var newExp = {
+      id: 'custom-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+      dayId: dayId,
+      title: title || 'Extra Expense',
+      amountInr: amountInr,
+      amountRm: amountRm,
+      paymentMethod: paymentMethod || 'cash',
+      category: category || 'misc',
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    state.customExpenses.push(newExp);
+    this.saveState(state);
+    return newExp;
+  },
+
+  deleteCustomExpense: function(id) {
+    var state = this.getState();
+    if (state.customExpenses) {
+      state.customExpenses = state.customExpenses.filter(function(e) { return e.id !== id; });
+      this.saveState(state);
+    }
+  },
+
+  // Active Tab View
   getActiveView: function() {
     var state = this.getState();
     return state.activeView || 'all';
@@ -96,54 +237,135 @@ window.TripStorage = {
     this.saveState(state);
   },
 
-  getDynamicBudgetTotals: function() {
-    var fixedPaid = 69200; // Flights ₹55,000 + Hotel ₹14,200
+  // Comprehensive Wallet Calculations (Only counts as spent when marked Done or Booked!)
+  getWalletStats: function() {
+    var state = this.getState();
+    var rate = this.getExchangeRate();
+    var initialCashRm = this.getInitialCashRm();
+    var initialCashInr = Math.round(initialCashRm * rate);
 
-    var activitiesTotal = 0;
-    var activitiesPaid = 0;
-    var totalTicketed = 0;
-    var bookedTicketed = 0;
+    var cashSpentRm = 0;
+    var cardSpentInr = 0;
 
-    if (window.ITINERARY_DATA && window.ITINERARY_DATA.length) {
+    // Sum from itinerary timeline items:
+    // Only counted as actually spent if marked Booked (for tickets) or Done (for meals/transport)
+    if (window.ITINERARY_DATA) {
       window.ITINERARY_DATA.forEach(function(day) {
-        if (day.timeline && day.timeline.length) {
+        if (day.timeline) {
           day.timeline.forEach(function(item) {
+            var isActuallySpent = false;
             if (item.isTicketRequired) {
-              totalTicketed++;
-              var isBooked = window.TripStorage.isItemBooked(item.id, item.defaultBooked);
-              var cost = window.TripStorage.getActualSpend(item.id, item.costInr);
-              activitiesTotal += cost;
-              if (isBooked) {
-                bookedTicketed++;
-                activitiesPaid += cost;
+              isActuallySpent = window.TripStorage.isItemBooked(item.id, item.defaultBooked);
+            } else if (item.costInr > 0 || item.costRm > 0) {
+              isActuallySpent = window.TripStorage.isItemDone(item.id);
+            }
+
+            if (isActuallySpent) {
+              var exp = window.TripStorage.getItemExpense(item);
+              if (exp.paymentMethod === 'cash') {
+                cashSpentRm += exp.amountRm;
+              } else {
+                cardSpentInr += exp.amountInr;
               }
-            } else if (item.costInr && item.costInr > 0 && !item.id.includes('dinner') && !item.id.includes('lunch') && !item.id.includes('grab')) {
-              // Non-ticketed small activity entries (e.g. Eco park canopy / Batu Caves Ramayana)
-              activitiesTotal += item.costInr;
             }
           });
         }
       });
     }
 
-    var foodTotal = 14912;
-    var transportTotal = 4660;
+    // Sum from custom logged expenses
+    var customList = state.customExpenses || [];
+    customList.forEach(function(ce) {
+      if (ce.paymentMethod === 'cash') {
+        cashSpentRm += (ce.amountRm || 0);
+      } else {
+        cardSpentInr += (ce.amountInr || 0);
+      }
+    });
+
+    var cashSpentInr = Math.round(cashSpentRm * rate);
+    var remainingCashRm = Math.max(0, Math.round((initialCashRm - cashSpentRm) * 10) / 10);
+    var remainingCashInr = Math.round(remainingCashRm * rate);
+
+    return {
+      initialCashRm: initialCashRm,
+      initialCashInr: initialCashInr,
+      cashSpentRm: Math.round(cashSpentRm * 10) / 10,
+      cashSpentInr: cashSpentInr,
+      remainingCashRm: remainingCashRm,
+      remainingCashInr: remainingCashInr,
+      cardSpentInr: cardSpentInr,
+      cardSpentRm: rate > 0 ? Math.round((cardSpentInr / rate) * 10) / 10 : 0,
+      exchangeRate: rate
+    };
+  },
+
+  getDynamicBudgetTotals: function() {
+    var fixedPaid = 69200; // Flights ₹55,000 + Hotel ₹14,200
+
+    var ticketsTotal = 0;
+    var ticketsPaid = 0;
+    var totalTicketed = 0;
+    var bookedTicketed = 0;
+
+    var foodTotal = 0;
+    var transportTotal = 0;
+    var activitiesOtherTotal = 0;
+
+    if (window.ITINERARY_DATA) {
+      window.ITINERARY_DATA.forEach(function(day) {
+        if (day.timeline) {
+          day.timeline.forEach(function(item) {
+            var exp = window.TripStorage.getItemExpense(item);
+
+            if (item.isTicketRequired) {
+              totalTicketed++;
+              var isBooked = window.TripStorage.isItemBooked(item.id, item.defaultBooked);
+              ticketsTotal += exp.amountInr;
+              if (isBooked) {
+                bookedTicketed++;
+                ticketsPaid += exp.amountInr;
+              }
+            } else if (item.category === 'food') {
+              foodTotal += exp.amountInr;
+            } else if (item.category === 'transport') {
+              transportTotal += exp.amountInr;
+            } else if (item.category === 'activity') {
+              activitiesOtherTotal += exp.amountInr;
+            }
+          });
+        }
+      });
+    }
+
+    // Add extra custom expenses
+    var customList = this.getState().customExpenses || [];
+    var customTotalInr = 0;
+    customList.forEach(function(ce) {
+      customTotalInr += (ce.amountInr || 0);
+    });
+
     var shoppingTotal = 10000;
     var miscTotal = 3495;
 
-    var additionalSpend = activitiesTotal + foodTotal + transportTotal + shoppingTotal + miscTotal;
+    var additionalSpend = ticketsTotal + foodTotal + transportTotal + activitiesOtherTotal + shoppingTotal + miscTotal + customTotalInr;
     var grandTotal = fixedPaid + additionalSpend;
-    var paidSoFar = fixedPaid + activitiesPaid;
+
+    // Paid so far = Flights & Hotel (Fixed) + all logged cash & card spent
+    var walletStats = this.getWalletStats();
+    var paidSoFar = fixedPaid + walletStats.cashSpentInr + walletStats.cardSpentInr;
     var remainingToSpend = Math.max(0, grandTotal - paidSoFar);
 
     return {
       fixedPaid: fixedPaid,
-      activitiesTotal: activitiesTotal,
-      activitiesPaid: activitiesPaid,
+      ticketsTotal: ticketsTotal,
+      ticketsPaid: ticketsPaid,
       foodTotal: foodTotal,
       transportTotal: transportTotal,
+      activitiesOtherTotal: activitiesOtherTotal,
       shoppingTotal: shoppingTotal,
       miscTotal: miscTotal,
+      customTotalInr: customTotalInr,
       additionalSpend: additionalSpend,
       grandTotal: grandTotal,
       paidSoFar: paidSoFar,

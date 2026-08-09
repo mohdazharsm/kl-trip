@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kl-trip-cache-v2';
+const CACHE_NAME = 'kl-trip-cache-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

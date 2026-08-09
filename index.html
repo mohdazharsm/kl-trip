@@ -30,6 +30,9 @@
   <!-- Trip Checklist Progress Tracker -->
   <div id="progress-container"></div>
 
+  <!-- Live Travel Wallet (Cash & Card Tracker) -->
+  <div id="wallet-container"></div>
+
   <!-- Confirmed Bookings (Flights & Hotel) -->
   <div id="fixed-bookings-container"></div>
 
@@ -50,6 +53,65 @@
 
   <!-- Summary Ribbon & Footer -->
   <div id="summary-container"></div>
+
+  <!-- Log Extra Spend Modal Dialog -->
+  <div id="expense-modal" class="modal-backdrop" onclick="closeExpenseModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">➕ Log Extra Spend</div>
+          <div class="modal-subtitle" id="modal-subtitle">Add spontaneous travel or food expense</div>
+        </div>
+        <button class="modal-close-btn" onclick="closeExpenseModal()" title="Close">✕</button>
+      </div>
+
+      <!-- Quick Fill Suggestions -->
+      <div class="quick-chips-row">
+        <button type="button" class="quick-chip" onclick="quickFillExpense('🥤 7-Eleven Snacks', 15, 'RM', 'cash')">🥤 7-Eleven (RM 15)</button>
+        <button type="button" class="quick-chip" onclick="quickFillExpense('🚗 Grab / Bolt Ride', 25, 'RM', 'card')">🚗 Grab (RM 25)</button>
+        <button type="button" class="quick-chip" onclick="quickFillExpense('🥥 Fresh Coconut', 10, 'RM', 'cash')">🥥 Coconut (RM 10)</button>
+        <button type="button" class="quick-chip" onclick="quickFillExpense('🍦 Ice Cream / Dessert', 12, 'RM', 'cash')">🍦 Dessert (RM 12)</button>
+        <button type="button" class="quick-chip" onclick="quickFillExpense('🛍 Souvenir / Craft', 30, 'RM', 'card')">🛍 Souvenir (RM 30)</button>
+      </div>
+
+      <form id="expense-form" onsubmit="saveCustomExpense(event)">
+        <input type="hidden" id="modal-day-id" value="d1" />
+
+        <div class="modal-form-group">
+          <label class="modal-form-label">Expense Description</label>
+          <input type="text" id="modal-desc" class="modal-input-text" placeholder="e.g. 7-Eleven drinks, Bolt ride, Mango sticky rice" required />
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-form-label">Amount &amp; Currency</label>
+          <div class="amount-row">
+            <button type="button" id="modal-curr-btn" class="currency-selector-btn" onclick="toggleModalCurrency()">Currency: RM</button>
+            <input type="number" id="modal-amount" class="modal-amount-input" placeholder="0" step="any" min="0" required oninput="updateModalConversionPreview()" />
+          </div>
+          <div class="amount-conversion-preview" id="modal-conversion-preview">≈ ₹ 0</div>
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-form-label">Payment Method</label>
+          <div class="payment-selector-grid">
+            <div class="pay-option-card selected cash" id="poc-cash" onclick="selectModalPaymentMethod('cash')">
+              <div class="poc-title">💵 Cash (RM)</div>
+              <div class="poc-sub">Deducts from Cash in Hand</div>
+            </div>
+            <div class="pay-option-card card" id="poc-card" onclick="selectModalPaymentMethod('card')">
+              <div class="poc-title">💳 Card / Forex</div>
+              <div class="poc-sub">Charges to Card</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeExpenseModal()">Cancel</button>
+          <button type="submit" class="btn-primary">💾 Save Expense</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Leaflet Map Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
