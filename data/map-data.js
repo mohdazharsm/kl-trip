@@ -30,25 +30,25 @@ window.MAP_DATA = {
   },
   map_d2: {
     title: "Day 2 Route Map",
-    googleMapsUrl: "https://www.google.com/maps/dir/My+Hotel+Bukit+Bintang+KL/KL+Forest+Eco+Park/Masjid+Wilayah+Persekutuan+KL/Brickfields+KL/Thean+Hou+Temple+KL/Petaling+Street+KL/Pavilion+KL/My+Hotel+Bukit+Bintang+KL",
+    googleMapsUrl: "https://www.google.com/maps/dir/My+Hotel+Bukit+Bintang+KL/KL+Forest+Eco+Park/Masjid+Wilayah+Persekutuan+KL/Thean+Hou+Temple+KL/Petaling+Street+KL/Pavilion+KL/Nasi+Lemak+Wanjo+Kampung+Baru+KL/My+Hotel+Bukit+Bintang+KL",
     chipStops: [
       { num: "H", isHotel: true, name: "My Hotel @ Bukit Bintang" },
       { num: "1", name: "Forest Eco Park", km: "1.2 km" },
       { num: "2", name: "Masjid Wilayah", km: "3.2 km" },
-      { num: "3", name: "Brickfields", km: "4.9 km" },
-      { num: "4", name: "Thean Hou Temple", km: "0.8 km" },
-      { num: "5", name: "Chinatown", km: "2.5 km" },
-      { num: "6", name: "Pavilion KL", km: "1.8 km" },
-      { num: "H", isHotel: true, name: "My Hotel @ Bukit Bintang", km: "0.4 km" }
+      { num: "3", name: "Thean Hou Temple", km: "5.5 km" },
+      { num: "4", name: "Chinatown & Lunch", km: "3.2 km" },
+      { num: "5", name: "Pavilion KL", km: "1.8 km" },
+      { num: "6", name: "Kampung Baru (Dinner)", km: "2.2 km" },
+      { num: "H", isHotel: true, name: "My Hotel @ Bukit Bintang", km: "2.0 km" }
     ],
     stops: [
       [3.14360, 101.70930, 'H', 'My Hotel @ Bukit Bintang', true],
       [3.15270, 101.70330, '1', 'KL Forest Eco Park — Canopy Walk', false],
       [3.17350, 101.68370, '2', 'Masjid Wilayah — Blue Mosque (FREE)', false],
-      [3.12960, 101.68700, '3', 'Brickfields / Little India — Lunch', false],
-      [3.12260, 101.68920, '4', 'Thean Hou Temple (FREE)', false],
-      [3.14340, 101.69690, '5', 'Chinatown / Petaling Street (FREE)', false],
-      [3.14950, 101.71350, '6', 'Pavilion KL Mall', false],
+      [3.12260, 101.68920, '3', 'Thean Hou Temple (FREE)', false],
+      [3.14340, 101.69690, '4', 'Chinatown — Nanyang Lunch & Artisan Walk', false],
+      [3.14950, 101.71350, '5', 'Pavilion KL Mall', false],
+      [3.16330, 101.70610, '6', 'Kampung Baru — Nasi Lemak Wanjo Dinner', false],
       [3.14360, 101.70930, 'H', 'My Hotel @ Bukit Bintang', true]
     ]
   },

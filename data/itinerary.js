@@ -195,9 +195,10 @@ window.ITINERARY_DATA = [
     mapId: "map_d2",
     badgeText: "Day 2",
     badgeClass: "",
-    title: "Forest Eco Park + Blue Mosque + Thean Hou Temple + Chinatown",
+    title: "Forest Eco Park + Blue Mosque + Thean Hou Temple + Chinatown + Kampung Baru 🌙",
     date: "Monday, 17 August · 2 people",
-    costTotal: "~₹8,000",
+    costTotal: "~₹9,500",
+    coupleTip: "<strong>💑 Couple tip:</strong> A packed, diverse day — lush rainforest canopy in the morning, serene blue domes, dragon temples, vibrant Chinatown artisan shopping, and ending with world-famous Nasi Lemak in Kampung Baru with the Twin Towers glowing right above you.",
     timeline: [
       {
         id: "d2-breakfast",
@@ -219,18 +220,20 @@ window.ITINERARY_DATA = [
       {
         id: "d2-forest-eco",
         shortName: "🌿 KL Forest Eco Park (Canopy Walk)",
-        category: "activity",
+        category: "ticket",
         time: "10 AM",
-        dotClass: "free",
+        dotClass: "tour",
         name: "🌿 KL Forest Eco Park — Canopy Walk",
-        desc: "A genuine tropical rainforest INSIDE the city centre — one of the most unique things in KL that most tourists miss. A 200m suspended canopy walkway takes you above the treetops with the KL skyline visible behind you. Go early before the heat and afternoon rain. Wear proper shoes, not sandals.",
-        isTicketRequired: false,
-        costInr: 233,
-        costRm: 10,
-        defaultPaymentMethod: "cash",
+        desc: "A genuine tropical rainforest INSIDE the city centre — a 200m suspended canopy walkway taking you above the treetops with the KL skyline visible behind you. Wear comfortable walking shoes. International tourist tickets are purchased at the entrance.",
+        isTicketRequired: true,
+        defaultBooked: false,
+        costInr: 1864,
+        costRm: 80,
+        defaultPaymentMethod: "card",
         mapUrl: "https://maps.google.com/?q=KL+Forest+Eco+Park+Kuala+Lumpur",
         badges: [
-          { text: "~FREE – RM 5–10 · ₹120–235", class: "free" }
+          { text: "RM 40 × 2 = RM 80 · ₹1,864", class: "paid" },
+          { text: "₹932/person", class: "pp" }
         ],
         buttons: [
           { text: "Maps ↗", url: "https://maps.app.goo.gl/WurNnY1hA1ueZoXm9", alt: true }
@@ -244,7 +247,7 @@ window.ITINERARY_DATA = [
         time: "11:30 AM",
         dotClass: "free",
         name: "🕌 Masjid Wilayah — KL's Blue Mosque",
-        desc: "10 min Grab from the Eco Park. One of the most beautiful mosques in Southeast Asia — stunning blue domes, intricate geometric tilework, marble courtyards and a serene reflection pool. Free for non-Muslim visitors. Dress modestly — shoulders and knees covered (robes provided at entrance). Very photogenic and genuinely peaceful.",
+        desc: "10 min Grab from the Eco Park. One of the most breathtaking mosques in Southeast Asia — stunning blue domes, intricate geometric tilework, marble courtyards, and a serene reflection pool. Free for non-Muslim visitors. Dress modestly — shoulders and knees covered (robes provided at entrance). Spend ~45 mins here.",
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
@@ -256,61 +259,44 @@ window.ITINERARY_DATA = [
         buttons: [
           { text: "Maps ↗", url: "https://maps.app.goo.gl/2aYpfjKo7NQ3gCEZ9", alt: true }
         ],
-        tipBox: "<strong>⏰ Timing note:</strong> Monday 17 Aug is not a Friday — no prayer closure issue. Open 9 AM–6 PM. Spend ~45 min here."
-      },
-      {
-        id: "d2-brickfields-lunch",
-        shortName: "🍛 Brickfields Little India Lunch",
-        category: "food",
-        time: "1 PM",
-        dotClass: "food",
-        name: "🍛 Lunch — Brickfields / Little India",
-        desc: "10 min Grab from the mosque — Brickfields is KL's Little India. Banana leaf rice, South Indian thali, roti canai — very familiar flavours! Try Sri Devi Annapoorna or Vishal Restaurant. Great value.",
-        isTicketRequired: false,
-        costInr: 932,
-        costRm: 40,
-        defaultPaymentMethod: "cash",
-        mapUrl: "https://maps.google.com/?q=Brickfields+Little+India+Kuala+Lumpur",
-        badges: [
-          { text: "~RM 30–50 for 2 · ₹700–1,165", class: "food" }
-        ]
+        tipBox: "<strong>⏰ Timing note:</strong> Monday 17 Aug is not a Friday — open 9 AM–6 PM. Very peaceful and photogenic."
       },
       {
         id: "d2-thean-hou",
-        shortName: "🏮 Thean Hou Temple (Grab Return)",
-        category: "transport",
-        time: "2:30 PM",
+        shortName: "🏮 Thean Hou Temple",
+        category: "free",
+        time: "1:00 PM – 2:00 PM",
         dotClass: "free",
-        name: "🏮 Thean Hou Temple",
-        desc: "15 min Grab from Brickfields. Six-tier Chinese temple with dragon carvings, colourful lanterns, and panoramic KL skyline views from the hilltop. Afternoon light is great for photography — the lanterns glow as dusk approaches.",
+        name: "🏮 Thean Hou Temple — Hilltop City Views",
+        desc: "15 min Grab from the mosque. Six-tier Chinese temple dedicated to the goddess Mazu, featuring ornate dragon carvings, hundreds of red lanterns, and sweeping panoramic views of the KL skyline. Free entry. Spend 45–60 mins taking photos before heading down to Chinatown.",
         isTicketRequired: false,
-        costInr: 932,
-        costRm: 40,
-        defaultPaymentMethod: "card",
+        costInr: 0,
+        costRm: 0,
+        defaultPaymentMethod: "cash",
         mapUrl: "https://maps.google.com/?q=Thean+Hou+Temple+Kuala+Lumpur",
         badges: [
-          { text: "FREE Entry", class: "free" },
-          { text: "Grab both ways: ~RM 40 · ₹932", class: "paid" }
+          { text: "FREE Entry", class: "free" }
         ],
         buttons: [
           { text: "Maps ↗", url: "https://maps.app.goo.gl/6GZb5hjBjXBmMVMg6", alt: true }
         ]
       },
       {
-        id: "d2-chinatown",
-        shortName: "🏮 Chinatown & Petaling Street",
-        category: "free",
-        time: "4 PM",
-        dotClass: "free",
-        name: "🏮 Chinatown — Petaling Street + Central Market",
-        desc: "Grab to Chinatown (~15 min). KL's old Chinese quarter — souvenirs, batik, cheap clothing, street snacks. Sri Mahamariamman Temple is right here (free, stunning). Bargain everything to 50% of asking. Then walk to Central Market — a covered artisan market with local crafts, batik, art, and regional food.",
+        id: "d2-chinatown-all",
+        shortName: "🏮 Chinatown: Lunch + Murals + Central Market",
+        category: "food",
+        time: "2:15 PM – 5:30 PM",
+        dotClass: "food",
+        name: "🏮 Chinatown All-in-One: Nanyang Lunch & Artisan Walk",
+        desc: "7 min Grab from Thean Hou Temple. Everything in one seamless afternoon: start with late lunch at <strong>Ho Kow Hainam Kopitiam</strong> (legendary Kaya toast, soft eggs, curry chee cheong fun) or <strong>Merchant's Lane</strong> cafe. Then stroll <strong>Kwai Chai Hong</strong> heritage murals, bargain at <strong>Petaling Street</strong>, visit <strong>Sri Mahamariamman Temple</strong>, and explore <strong>Central Market</strong> (air-conditioned artisan crafts & batik).",
         isTicketRequired: false,
-        costInr: 0,
-        costRm: 0,
+        costInr: 1631,
+        costRm: 70,
         defaultPaymentMethod: "cash",
         mapUrl: "https://maps.google.com/?q=Petaling+Street+Chinatown+Kuala+Lumpur",
         badges: [
-          { text: "FREE to explore", class: "free" }
+          { text: "Lunch for 2 ~RM 60–80 · ₹1,400–1,864", class: "food" },
+          { text: "Sightseeing: FREE", class: "free" }
         ],
         buttons: [
           { text: "Maps ↗", url: "https://maps.app.goo.gl/v1KqJcBjf7r14tcX7", alt: true }
@@ -320,10 +306,10 @@ window.ITINERARY_DATA = [
         id: "d2-pavilion-mall",
         shortName: "🛍 Pavilion KL Mall Window Shopping",
         category: "free",
-        time: "6 PM",
+        time: "5:45 PM – 7:45 PM",
         dotClass: "tour",
-        name: "🛍 Pavilion KL Mall — Shopping + Stroll",
-        desc: "5 min walk or short Grab from Chinatown to Bukit Bintang. Pavilion KL is KL's most iconic mall — beautiful atrium, international brands, local fashion, great food court on Level 6. Perfect air-conditioned wind-down after a full cultural day. Window shop, pick up any last things, or just enjoy the atmosphere.",
+        name: "🛍 Pavilion KL Mall — Shopping + AC Stroll",
+        desc: "Short Grab to Bukit Bintang. Pavilion KL is KL's premier mall — beautiful atrium, international fashion, Tokyo Street zone on Level 6. Perfect air-conditioned wind-down before dinner.",
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
@@ -331,25 +317,26 @@ window.ITINERARY_DATA = [
         mapUrl: "https://maps.google.com/?q=Pavilion+Kuala+Lumpur",
         badges: [
           { text: "FREE to browse", class: "free" },
-          { text: "Shopping from your ₹10,000 budget", class: "paid" }
+          { text: "Shopping from ₹10,000 budget", class: "paid" }
         ]
       },
       {
-        id: "d2-changkat-dinner",
-        shortName: "🍻 Changkat Bukit Bintang Dinner",
+        id: "d2-kampung-baru-dinner",
+        shortName: "🌙 Kampung Baru (Malay Night Food Street)",
         category: "food",
-        time: "8 PM",
+        time: "8:00 PM",
         dotClass: "food",
-        name: "🍻 Dinner — Changkat Bukit Bintang",
-        desc: "2 min walk from Pavilion, right by your hotel. KL's best bar-and-restaurant street — a relaxed way to close a full cultural day without heading back out to KLCC. Try View Rooftop Bar or Pisco Bar for skyline views with dinner, or a quieter sit-down restaurant if you'd rather wind down.",
+        name: "🌙 Dinner — Kampung Baru (Iconic Malay Night Feast)",
+        desc: "10 min Grab from Pavilion. Historic traditional Malay enclave with the illuminated Petronas Twin Towers soaring directly in the backdrop! Dine at <strong>Nasi Lemak Wanjo</strong> or surrounding stalls — hot coconut rice, crispy fried chicken, beef rendang, satay skewers, and iced coconut water.",
         isTicketRequired: false,
-        costInr: 1748,
-        costRm: 75,
-        defaultPaymentMethod: "card",
-        mapUrl: "https://maps.google.com/?q=Changkat+Bukit+Bintang+Kuala+Lumpur",
+        costInr: 1398,
+        costRm: 60,
+        defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=Nasi+Lemak+Wanjo+Kampung+Baru+Kuala+Lumpur",
         badges: [
-          { text: "Dinner for 2 ~RM 60–90 · ₹1,398–2,097", class: "food" }
-        ]
+          { text: "Dinner for 2 ~RM 50–70 · ₹1,165–1,630", class: "food" }
+        ],
+        tipBox: "<strong>📸 Photo Spot:</strong> Take a photo on the Saloma Link bridge right by Kampung Baru with the glowing Petronas Towers behind you!"
       }
     ]
   },
@@ -425,7 +412,7 @@ window.ITINERARY_DATA = [
         time: "12–4 PM",
         dotClass: "free",
         name: "🦁 Zoo Negara — Malaysia's National Zoo",
-        desc: "110 acres, 5,000+ animals across 400+ species — African lions, Malayan tigers, elephants, orangutans, and the popular Giant Panda Conservation Centre. Open-concept design lets animals roam in spacious naturalistic enclosures rather than small cages. Catch the afternoon animal show (~3 PM, confirm exact time when booking) featuring sea lions and macaws before you leave.",
+        desc: "110 acres, 5,000+ animals across 400+ species — African lions, Malayan tigers, elephants, orangutans, and the popular air-conditioned Giant Panda Conservation Centre. Catch lunch at the zoo's Panda Cafe / The Wild Restaurant, and enjoy the afternoon animal show (~3 PM) featuring sea lions and macaws before you leave.",
         isTicketRequired: true,
         defaultBooked: false,
         costInr: 3914,
@@ -463,7 +450,7 @@ window.ITINERARY_DATA = [
         time: "6:30 PM",
         dotClass: "free",
         name: "🧼 Freshen Up at Hotel",
-        desc: "Rest, shower, change — you've earned it after a full day of walking. Quick breather before heading back out for the evening.",
+        desc: "Rest, shower, change — you've earned it after a full day of walking. Quick breather before heading back out for a relaxed evening.",
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
@@ -475,19 +462,19 @@ window.ITINERARY_DATA = [
       },
       {
         id: "d3-night-dinner",
-        shortName: "🍜 Chinatown / Jalan Alor Dinner",
+        shortName: "🍸 Jalan Mesui / Heli Lounge Sunset",
         category: "food",
         time: "8 PM",
         dotClass: "food",
-        name: "🍜 Evening — Petaling Street / Jalan Alor",
-        desc: "The \"street\" evening you wanted — pick between round two at Jalan Alor (10 min from hotel) or a night stroll through Petaling Street Chinatown for street snacks and a more local night-market feel. Either way, order a few dishes to share and enjoy the evening at a relaxed pace.",
+        name: "🍸 Evening — Jalan Mesui / Heli Lounge Bar",
+        desc: "5 min walk from your hotel. Relax on tree-lined Jalan Mesui with tapas and bistros (Pisco Bar / Joloko), or head up to Heli Lounge Bar (Menara KH) for an open-air 34th-floor helicopter pad sunset view over the glittering KL skyline.",
         isTicketRequired: false,
-        costInr: 1398,
-        costRm: 60,
-        defaultPaymentMethod: "cash",
-        mapUrl: "https://maps.google.com/?q=Jalan+Alor+Night+Market+Kuala+Lumpur",
+        costInr: 1631,
+        costRm: 70,
+        defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Jalan+Mesui+Bukit+Bintang+Kuala+Lumpur",
         badges: [
-          { text: "Dinner for 2 ~RM 50–70 · ₹1,165–1,630", class: "food" }
+          { text: "Dinner for 2 ~RM 60–80 · ₹1,400–1,864", class: "food" }
         ]
       }
     ]
@@ -532,7 +519,7 @@ window.ITINERARY_DATA = [
         time: "10 AM",
         dotClass: "",
         name: "🚡 Awana SkyWay Cable Car — Together!",
-        desc: "A 10-min ride through 130 million year old rainforest canopy — stunning views, cool mountain air, very romantic. Optional glass floor gondola for extra thrill. Stop at Chin Swee Caves Temple mid-way (free, same ticket, great photos).",
+        desc: "A 10-min ride through 130 million year old rainforest canopy — stunning views, cool mountain air, very romantic. Free stop at Chin Swee Caves Temple mid-way (same ticket, 9-story pagoda & giant Buddha).",
         isTicketRequired: true,
         defaultBooked: false,
         costInr: 2563,
@@ -612,7 +599,7 @@ window.ITINERARY_DATA = [
         time: "9 PM",
         dotClass: "food",
         name: "🌟 Special Last Night Dinner",
-        desc: "Treat yourselves — Marini's on 57 rooftop bar has cocktails with a direct Petronas towers view (splurge, ~RM 200 for 2), or a nice dinner at Atmosphere 360 revolving restaurant in KL Tower. Or keep it memorable at Jalan Alor one final time.",
+        desc: "Treat yourselves — Marini's on 57 rooftop bar has cocktails with a direct Petronas towers view (splurge, ~RM 200 for 2), or a memorable dinner at <strong>ORBIT Revolving Dining</strong> in KL Tower. Or enjoy one final romantic evening in Bukit Bintang.",
         isTicketRequired: false,
         costInr: 3495,
         costRm: 150,

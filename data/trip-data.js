@@ -36,8 +36,8 @@ window.TRIP_DATA = {
 
     { type: "header", name: "🎟 Activities (book on Klook / at counter)", rmHeader: "RM (×2)", inrHeader: "₹ (couple)" },
     { type: "item", name: "🌆 Petronas Twin Towers (Skybridge + Obs Deck) × 2 <span style=\"color:#5ecb8a;font-size:11px;\">✅ BOOKED · 4:30 PM slot</span>", rm: "—", inr: "₹7,084" },
-    { type: "item", name: "🏛 Islamic Arts Museum Malaysia (IAMM) × 2 (Day 1)", rm: "RM 40", inr: "₹932" },
-    { type: "item", name: "🌿 KL Forest Eco Park + 🕌 Masjid Wilayah Blue Mosque (both FREE)", rm: "~RM 10", inr: "₹233" },
+    { type: "item", name: "🌿 KL Forest Eco Park Canopy Walk × 2 (Day 2)", rm: "RM 80", inr: "₹1,864" },
+    { type: "item", name: "🕌 Masjid Wilayah Blue Mosque + 🏮 Thean Hou Temple (Day 2)", rm: "FREE", inr: "FREE" },
     { type: "item", name: "🕌 Batu Caves + 🦁 Zoo Negara (self-guided, incl. Grab fares) × 2", rm: "~RM 294", inr: "₹6,845" },
     { type: "item", name: "🚡 Genting Cable Car (round-trip) × 2", rm: "RM 110", inr: "₹2,563" },
     { type: "item", name: "🐠 Aquaria KLCC × 2", rm: "RM 160", inr: "₹3,728" },
