@@ -9,10 +9,10 @@ window.ITINERARY_DATA = [
     mapId: "map_d1",
     badgeText: "Day 1",
     badgeClass: "arrival",
-    title: "Arrival + Petronas Towers at Dusk 🌆",
+    title: "Arrival + Islamic Arts Museum + Petronas Towers at Dusk 🌆",
     date: "Sunday, 16 August · 2 people",
-    costTotal: "~₹10,000",
-    coupleTip: "<strong>💑 Couple tip:</strong> Evening at the Petronas Towers is one of the most romantic views in Asia — city lights, twin towers glowing, KLCC fountain show right below. Perfect first night.",
+    costTotal: "~₹12,500",
+    coupleTip: "<strong>💑 Couple tip:</strong> Morning rest & early check-in inquiry gives you energy, while the serene, air-conditioned Islamic Arts Museum is one of KL's most breathtaking cultural spots. Evening at Petronas Towers wraps up an unforgettable first day.",
     timeline: [
       {
         id: "d1-klia-express",
@@ -38,19 +38,78 @@ window.ITINERARY_DATA = [
       },
       {
         id: "d1-hotel-rest",
-        shortName: "🛏 Hotel Check-In & Breakfast",
+        shortName: "🛏 Bag Drop, Early Check-In & Rest",
         category: "free",
-        time: "9 AM –3 PM",
+        time: "8:30–11 AM",
         dotClass: "free",
-        name: "🛏 Check Bags · Rest · Check-In at 3 PM",
-        desc: "Hotel check-in is 3 PM. Leave both bags with reception. Grab complimentary breakfast at the hotel, then explore the Jalan Pudu area, grab a nap at a café, or head to Pavilion mall (5 min walk) to kill time in AC comfort.",
+        name: "🛏 Bag Drop · Request Early Check-In · Rest & Breakfast",
+        desc: "Arrive at My Hotel @ Bukit Bintang (120 Jalan Pudu). Drop your bags at reception and ask if early check-in (or early room readiness) is available. Enjoy complimentary hotel breakfast for two, freshen up, and rest in the lounge/lobby to recover from the overnight flight.",
         isTicketRequired: false,
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
-        mapUrl: "https://maps.google.com/?q=Kingston+Hotel+8+Kuala+Lumpur+Bukit+Bintang",
+        mapUrl: "https://maps.google.com/?q=My+Hotel+Bukit+Bintang+Kuala+Lumpur",
         badges: [
           { text: "FREE (breakfast for 2 included)", class: "free" }
+        ],
+        tipBox: "<strong>💡 Early check-in tip:</strong> If the room isn't ready right away, keep a small daypack with essentials (power bank, sunglasses, wipes) so you don't need to reopen stored luggage."
+      },
+      {
+        id: "d1-iamm",
+        shortName: "🏛 Islamic Arts Museum Malaysia (IAMM)",
+        category: "ticket",
+        time: "11:15 AM – 1:15 PM",
+        dotClass: "tour",
+        name: "🏛 Islamic Arts Museum Malaysia (IAMM)",
+        desc: "10-min Grab from hotel (~RM 12–15). Southeast Asia's largest Islamic arts museum — world-class air-conditioned sanctuary with stunning turquoise mosaic domes, scale models of famous world mosques (Masjid al-Haram, Taj Mahal, Dome of the Rock), Quranic calligraphy, textiles, and jewelry. Tickets purchased directly at lobby counter.",
+        isTicketRequired: true,
+        defaultBooked: false,
+        costInr: 932,
+        costRm: 40,
+        defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=Islamic+Arts+Museum+Malaysia",
+        badges: [
+          { text: "RM 20 × 2 = RM 40 · ₹932", class: "paid" },
+          { text: "₹466/person", class: "pp" }
+        ],
+        buttons: [
+          { text: "Official Info ↗", url: "https://www.iamm.org.my/", alt: false },
+          { text: "Maps ↗", url: "https://maps.google.com/?q=Islamic+Arts+Museum+Malaysia", alt: true }
+        ],
+        tipBox: "<strong>🌟 Couple Highlight:</strong> Marvelous domed ceilings and peaceful ambient galleries — one of the best photo spots in KL, away from the midday heat."
+      },
+      {
+        id: "d1-lunch-moza",
+        shortName: "🍽 Lunch at MOZA Restaurant",
+        category: "food",
+        time: "1:15–2:30 PM",
+        dotClass: "food",
+        name: "🍽 Lunch — MOZA Restaurant (Middle Eastern & Malaysian)",
+        desc: "Dine on the ground floor of the museum at MOZA Restaurant. Relax over Arabic mezze, grilled chicken shish taouk, Biryani/Mandi, iced mint tea, or local Malaysian specialties in a quiet, upscale setting before heading back.",
+        isTicketRequired: false,
+        costInr: 1631,
+        costRm: 70,
+        defaultPaymentMethod: "card",
+        mapUrl: "https://maps.google.com/?q=MOZA+Restaurant+Islamic+Arts+Museum+Malaysia",
+        badges: [
+          { text: "Lunch for 2 ~RM 60–80 · ₹1,400–1,864", class: "food" }
+        ]
+      },
+      {
+        id: "d1-hotel-checkin",
+        shortName: "🛏 Hotel Check-In & Freshen Up",
+        category: "free",
+        time: "2:45–3:30 PM",
+        dotClass: "free",
+        name: "🛏 Return to Hotel · Check-In & Freshen Up",
+        desc: "Take a 10-min Grab back to My Hotel @ Bukit Bintang. Collect your room keys (official check-in 3 PM), head to your room, unpack, take a refreshing shower, and get energized for your evening at the Twin Towers.",
+        isTicketRequired: false,
+        costInr: 0,
+        costRm: 0,
+        defaultPaymentMethod: "cash",
+        mapUrl: "https://maps.google.com/?q=My+Hotel+Bukit+Bintang+Kuala+Lumpur",
+        badges: [
+          { text: "FREE", class: "free" }
         ]
       },
       {
@@ -152,7 +211,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
-        mapUrl: "https://maps.google.com/?q=Kingston+Hotel+8+Kuala+Lumpur+Bukit+Bintang",
+        mapUrl: "https://maps.google.com/?q=My+Hotel+Bukit+Bintang+Kuala+Lumpur",
         badges: [
           { text: "FREE (included for 2)", class: "free" }
         ]
@@ -409,7 +468,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
-        mapUrl: "https://maps.google.com/?q=Kingston+Hotel+8+Kuala+Lumpur+Bukit+Bintang",
+        mapUrl: "https://maps.google.com/?q=My+Hotel+Bukit+Bintang+Kuala+Lumpur",
         badges: [
           { text: "FREE", class: "free" }
         ]
@@ -587,7 +646,7 @@ window.ITINERARY_DATA = [
         costInr: 0,
         costRm: 0,
         defaultPaymentMethod: "cash",
-        mapUrl: "https://maps.google.com/?q=Kingston+Hotel+8+Kuala+Lumpur+Bukit+Bintang",
+        mapUrl: "https://maps.google.com/?q=My+Hotel+Bukit+Bintang+Kuala+Lumpur",
         badges: [
           { text: "FREE (included for 2)", class: "free" }
         ]

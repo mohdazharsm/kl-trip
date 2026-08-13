@@ -21,7 +21,7 @@ window.TRIP_DATA = {
     },
     {
       label: "🏨 Hotel · 4 Nights",
-      title: "Kingston Hotel 8 @ KL Bukit Bintang",
+      title: "My Hotel @ Bukit Bintang",
       statusTag: "Confirmed",
       detail: "Check-in 16 Aug 3 PM · Check-out 20 Aug 12 PM<br>Breakfast for 2 included · Bukit Bintang, KL",
       price: "₹14,200",
@@ -34,8 +34,9 @@ window.TRIP_DATA = {
     { type: "fixed", name: "✈ Flights (Kochi ↔ KL, both) · J9JSTV", rm: "—", inr: "₹55,000" },
     { type: "fixed", name: "🏨 Hotel 4 nights (room + bfast for 2) · J9JSTV", rm: "—", inr: "₹14,200" },
 
-    { type: "header", name: "🎟 Activities (book on Klook)", rmHeader: "RM (×2)", inrHeader: "₹ (couple)" },
+    { type: "header", name: "🎟 Activities (book on Klook / at counter)", rmHeader: "RM (×2)", inrHeader: "₹ (couple)" },
     { type: "item", name: "🌆 Petronas Twin Towers (Skybridge + Obs Deck) × 2 <span style=\"color:#5ecb8a;font-size:11px;\">✅ BOOKED · 4:30 PM slot</span>", rm: "—", inr: "₹7,084" },
+    { type: "item", name: "🏛 Islamic Arts Museum Malaysia (IAMM) × 2 (Day 1)", rm: "RM 40", inr: "₹932" },
     { type: "item", name: "🌿 KL Forest Eco Park + 🕌 Masjid Wilayah Blue Mosque (both FREE)", rm: "~RM 10", inr: "₹233" },
     { type: "item", name: "🕌 Batu Caves + 🦁 Zoo Negara (self-guided, incl. Grab fares) × 2", rm: "~RM 294", inr: "₹6,845" },
     { type: "item", name: "🚡 Genting Cable Car (round-trip) × 2", rm: "RM 110", inr: "₹2,563" },

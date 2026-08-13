@@ -364,7 +364,7 @@ window.TripStorage = {
   },
 
   getDynamicBudgetTotals: function() {
-    var fixedPaid = 69200; // Flights ₹55,000 + Kingston Hotel 8 ₹14,200
+    var fixedPaid = 69200; // Flights ₹55,000 + My Hotel @ Bukit Bintang ₹14,200
 
     var ticketsTotal = 0;
     var ticketsPaid = 0;

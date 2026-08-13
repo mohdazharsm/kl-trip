@@ -424,7 +424,7 @@ function renderBudgetTable() {
           <div class="bg-inr">₹55,000</div>
         </div>
         <div class="bg-row fixed-item">
-          <div>🏨 Kingston Hotel 8 @ KL Bukit Bintang (4 Nights + Bfast)</div>
+          <div>🏨 My Hotel @ Bukit Bintang (4 Nights + Bfast)</div>
           <div class="bg-rm">—</div>
           <div class="bg-inr">₹14,200</div>
         </div>
