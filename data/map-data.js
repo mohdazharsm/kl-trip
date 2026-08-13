@@ -33,7 +33,7 @@ window.MAP_DATA = {
     googleMapsUrl: "https://www.google.com/maps/dir/My+Hotel+Bukit+Bintang+KL/KL+Forest+Eco+Park/Masjid+Wilayah+Persekutuan+KL/Thean+Hou+Temple+KL/Petaling+Street+KL/Pavilion+KL/Nasi+Lemak+Wanjo+Kampung+Baru+KL/My+Hotel+Bukit+Bintang+KL",
     chipStops: [
       { num: "H", isHotel: true, name: "My Hotel @ Bukit Bintang" },
-      { num: "1", name: "Forest Eco Park", km: "1.2 km" },
+      { num: "1", name: "Eco Park / Merdeka Sq", km: "1.2 km" },
       { num: "2", name: "Masjid Wilayah", km: "3.2 km" },
       { num: "3", name: "Thean Hou Temple", km: "5.5 km" },
       { num: "4", name: "Chinatown & Lunch", km: "3.2 km" },
@@ -43,7 +43,7 @@ window.MAP_DATA = {
     ],
     stops: [
       [3.14360, 101.70930, 'H', 'My Hotel @ Bukit Bintang', true],
-      [3.15270, 101.70330, '1', 'KL Forest Eco Park — Canopy Walk', false],
+      [3.15270, 101.70330, '1', 'KL Forest Eco Park OR Dataran Merdeka', false],
       [3.17350, 101.68370, '2', 'Masjid Wilayah — Blue Mosque (FREE)', false],
       [3.12260, 101.68920, '3', 'Thean Hou Temple (FREE)', false],
       [3.14340, 101.69690, '4', 'Chinatown — Nanyang Lunch & Artisan Walk', false],

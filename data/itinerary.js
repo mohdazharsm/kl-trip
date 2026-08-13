@@ -219,26 +219,26 @@ window.ITINERARY_DATA = [
       },
       {
         id: "d2-forest-eco",
-        shortName: "🌿 KL Forest Eco Park (Canopy Walk)",
-        category: "ticket",
+        shortName: "🌿 Forest Eco Park OR 🏛 Dataran Merdeka",
+        category: "activity",
         time: "10 AM",
         dotClass: "tour",
-        name: "🌿 KL Forest Eco Park — Canopy Walk",
-        desc: "A genuine tropical rainforest INSIDE the city centre — a 200m suspended canopy walkway taking you above the treetops with the KL skyline visible behind you. Wear comfortable walking shoes. International tourist tickets are purchased at the entrance.",
-        isTicketRequired: true,
-        defaultBooked: false,
+        name: "🌿 KL Forest Eco Park OR 🏛 Dataran Merdeka (Merdeka Square)",
+        desc: "<strong>Option 1 (Nature):</strong> 🌿 <strong>KL Forest Eco Park Canopy Walk</strong> — 200m suspended treetop walkway in a tropical rainforest inside the city centre (~RM 40/person at entrance).<br><br><strong>Option 2 (FREE & Colonial Heritage):</strong> 🏛 <strong>Dataran Merdeka (Merdeka Square)</strong> — KL's iconic heritage square, the copper-domed Sultan Abdul Samad Building clock tower, and the mist-covered River of Life bridge. 100% FREE & fantastic morning photo spot.",
+        isTicketRequired: false,
         costInr: 1864,
         costRm: 80,
         defaultPaymentMethod: "card",
-        mapUrl: "https://maps.google.com/?q=KL+Forest+Eco+Park+Kuala+Lumpur",
+        mapUrl: "https://maps.google.com/?q=Dataran+Merdeka+Kuala+Lumpur",
         badges: [
-          { text: "RM 40 × 2 = RM 80 · ₹1,864", class: "paid" },
-          { text: "₹932/person", class: "pp" }
+          { text: "Eco Park: RM 40/pax · ₹932", class: "paid" },
+          { text: "Merdeka Square: FREE", class: "free" }
         ],
         buttons: [
-          { text: "Maps ↗", url: "https://maps.app.goo.gl/WurNnY1hA1ueZoXm9", alt: true }
+          { text: "Merdeka Maps ↗", url: "https://maps.google.com/?q=Dataran+Merdeka+Kuala+Lumpur", alt: false },
+          { text: "Eco Park Maps ↗", url: "https://maps.app.goo.gl/WurNnY1hA1ueZoXm9", alt: true }
         ],
-        tipBox: "<strong>💡 Couple tip:</strong> Morning mist through jungle canopy with the KL skyline peeking behind — incredible photos that look nothing like a city trip."
+        tipBox: "<strong>💡 Choice tip:</strong> If you want a zero-cost morning with grand colonial architecture, head to Merdeka Square. If you prefer a quick jungle walkway before the heat, head to Forest Eco Park."
       },
       {
         id: "d2-masjid-wilayah",
