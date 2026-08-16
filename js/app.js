@@ -260,10 +260,95 @@ function deleteQuickExpense(id, dayId) {
   }
 }
 
+// Helper: Update active Day spend monitor and header cost in place
+function updateActiveDaySpendMonitor() {
+  if (!window.TripStorage || !window.ITINERARY_DATA) return;
+  var activeView = window.TripStorage.getActiveView() || 'd1';
+  var dayEl = document.getElementById('day-' + activeView);
+  if (!dayEl) return;
+
+  var ds = window.TripStorage.getDayStats(activeView);
+  if (!ds) return;
+
+  // 1. Update day header cost
+  var costEl = dayEl.querySelector('.day-cost-total');
+  if (costEl) {
+    costEl.innerHTML = `
+      <span class="day-spent-badge">₹${ds.totalSpentInr.toLocaleString('en-IN')} spent</span>
+      <span class="day-planned-sub">of ₹${ds.plannedItineraryInr.toLocaleString('en-IN')}</span>
+    `;
+  }
+
+  // 2. Update day spend monitor card
+  var monitorEl = dayEl.querySelector('.day-spend-monitor-card');
+  if (monitorEl) {
+    var statusPillClass = ds.isOverBudget ? 'over' : (ds.totalSpentInr > 0 ? 'on-track' : 'zero');
+    var statusPillText = ds.isOverBudget 
+      ? `⚠️ +₹${ds.differenceInr.toLocaleString('en-IN')} Over Planned` 
+      : (ds.totalSpentInr > 0 
+          ? `✅ ₹${ds.remainingPlannedInr.toLocaleString('en-IN')} Remaining` 
+          : `📋 ₹${ds.plannedItineraryInr.toLocaleString('en-IN')} Planned Budget`);
+
+    var paymentsSummary = [];
+    if (ds.cashSpentRm > 0) paymentsSummary.push(`💵 RM ${ds.cashSpentRm} (₹${ds.cashSpentInr.toLocaleString('en-IN')})`);
+    if (ds.cardSpentInr > 0) paymentsSummary.push(`💳 ₹${ds.cardSpentInr.toLocaleString('en-IN')}`);
+    if (ds.bankSpentInr > 0) paymentsSummary.push(`🏦 ₹${ds.bankSpentInr.toLocaleString('en-IN')}`);
+    var paymentsHtml = paymentsSummary.length ? paymentsSummary.join(' · ') : 'No spends logged yet';
+
+    var statusPillEl = monitorEl.querySelector('.dsm-status-pill');
+    if (statusPillEl) {
+      statusPillEl.className = 'dsm-status-pill ' + statusPillClass;
+      statusPillEl.innerText = statusPillText;
+    }
+
+    var spentValEl = monitorEl.querySelector('.dsm-metric-card.spent .dsm-val');
+    var spentSubValEl = monitorEl.querySelector('.dsm-metric-card.spent .dsm-sub-val');
+    if (spentValEl) spentValEl.innerText = '₹' + ds.totalSpentInr.toLocaleString('en-IN');
+    if (spentSubValEl) spentSubValEl.innerText = '≈ RM ' + ds.totalSpentRm;
+
+    var plannedValEl = monitorEl.querySelector('.dsm-metric-card.planned .dsm-val');
+    var plannedSubValEl = monitorEl.querySelector('.dsm-metric-card.planned .dsm-sub-val');
+    if (plannedValEl) plannedValEl.innerText = '₹' + ds.plannedItineraryInr.toLocaleString('en-IN');
+    if (plannedSubValEl) plannedSubValEl.innerText = '≈ RM ' + ds.plannedItineraryRm;
+
+    var extraValEl = monitorEl.querySelector('.dsm-metric-card.extra .dsm-val');
+    var extraSubValEl = monitorEl.querySelector('.dsm-metric-card.extra .dsm-sub-val');
+    if (extraValEl) {
+      extraValEl.className = 'dsm-val ' + (ds.extraSpendsInr > 0 ? 'accent' : 'muted');
+      extraValEl.innerText = '+₹' + ds.extraSpendsInr.toLocaleString('en-IN');
+    }
+    if (extraSubValEl) extraSubValEl.innerText = '≈ RM ' + ds.extraSpendsRm + ' (' + ds.extraSpendsCount + ' logs)';
+
+    var progValEl = monitorEl.querySelector('.dsm-metric-card.progress .dsm-val');
+    var progSubValEl = monitorEl.querySelector('.dsm-metric-card.progress .dsm-sub-val');
+    if (progValEl) progValEl.innerText = ds.percentageSpent + '%';
+    if (progSubValEl) progSubValEl.innerText = ds.doneItemsCount + '/' + ds.totalItemsCount + ' acts done';
+
+    var barFillEl = monitorEl.querySelector('.dsm-progress-fill');
+    if (barFillEl) {
+      barFillEl.className = 'dsm-progress-fill' + (ds.isOverBudget ? ' over' : '');
+      barFillEl.style.width = Math.min(100, ds.percentageSpent) + '%';
+    }
+
+    var chipsEl = monitorEl.querySelector('.dsm-footer-chips');
+    if (chipsEl) {
+      chipsEl.innerHTML = `
+        <span class="dsm-chip">🎟 Tickets: <strong>₹${ds.realizedTicketsInr.toLocaleString('en-IN')}</strong> / ₹${ds.plannedTicketsInr.toLocaleString('en-IN')} (${ds.bookedTicketsCount}/${ds.totalTicketsCount} booked)</span>
+        <span class="dsm-chip">🍜 Meals/Rides: <strong>₹${(ds.realizedFoodInr + ds.realizedTransportInr + ds.realizedActivitiesInr).toLocaleString('en-IN')}</strong> / ₹${(ds.plannedFoodInr + ds.plannedTransportInr + ds.plannedActivitiesInr).toLocaleString('en-IN')}</span>
+        <span class="dsm-chip">➕ Extra: <strong>₹${ds.extraSpendsInr.toLocaleString('en-IN')}</strong></span>
+        <span class="dsm-chip pay-split">💳 ${paymentsHtml}</span>
+      `;
+    }
+  }
+}
+
 // Helper: Refresh All Financial Views
 function refreshAllBudgetViews() {
+  updateActiveDaySpendMonitor();
+  renderDayTabs();
   renderWalletDashboard();
   renderProgressBar();
+  renderDayWiseSpendSummary();
   renderBudgetTable();
   renderSummaryRibbon();
 }
@@ -308,6 +393,7 @@ function resetTripProgress() {
     renderProgressBar();
     renderDayTabs();
     renderItinerary();
+    renderDayWiseSpendSummary();
     renderBudgetTable();
     renderSummaryRibbon();
   }
@@ -322,6 +408,7 @@ document.addEventListener('DOMContentLoaded', function() {
   renderFixedBookings();
   renderDayTabs();
   renderItinerary();
+  renderDayWiseSpendSummary();
   renderBudgetTable();
   renderShoppingGuide();
   renderTravelTips();

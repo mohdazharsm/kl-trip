@@ -438,6 +438,269 @@ window.TripStorage = {
     };
   },
 
+  // Day-Wise Financial Calculation Engine (Planned vs Spent + Extra Logs)
+  getDayStats: function(dayId) {
+    if (!window.ITINERARY_DATA) return null;
+    var day = window.ITINERARY_DATA.find(function(d) { return d.id === dayId; });
+    if (!day) return null;
+
+    var rate = this.getExchangeRate();
+    var state = this.getState();
+
+    var plannedTicketsInr = 0, plannedTicketsRm = 0;
+    var plannedFoodInr = 0, plannedFoodRm = 0;
+    var plannedTransportInr = 0, plannedTransportRm = 0;
+    var plannedActivitiesInr = 0, plannedActivitiesRm = 0;
+    var plannedItineraryInr = 0, plannedItineraryRm = 0;
+
+    var realizedTicketsInr = 0, realizedTicketsRm = 0;
+    var realizedFoodInr = 0, realizedFoodRm = 0;
+    var realizedTransportInr = 0, realizedTransportRm = 0;
+    var realizedActivitiesInr = 0, realizedActivitiesRm = 0;
+    var realizedItineraryInr = 0, realizedItineraryRm = 0;
+
+    var cashSpentRm = 0, cashSpentInr = 0;
+    var cardSpentInr = 0, cardSpentRm = 0;
+    var bankSpentInr = 0, bankSpentRm = 0;
+
+    var totalItemsCount = 0;
+    var doneItemsCount = 0;
+    var totalTicketsCount = 0;
+    var bookedTicketsCount = 0;
+
+    if (day.timeline && day.timeline.length) {
+      day.timeline.forEach(function(item) {
+        totalItemsCount++;
+        var exp = window.TripStorage.getItemExpense(item);
+        var inr = exp.amountInr || 0;
+        var rm = exp.amountRm || (inr > 0 ? Math.round(inr / rate) : 0);
+
+        // Planned Sums
+        if (item.isTicketRequired) {
+          totalTicketsCount++;
+          plannedTicketsInr += inr;
+          plannedTicketsRm += rm;
+        } else if (item.category === 'food') {
+          plannedFoodInr += inr;
+          plannedFoodRm += rm;
+        } else if (item.category === 'transport') {
+          plannedTransportInr += inr;
+          plannedTransportRm += rm;
+        } else {
+          plannedActivitiesInr += inr;
+          plannedActivitiesRm += rm;
+        }
+        plannedItineraryInr += inr;
+        plannedItineraryRm += rm;
+
+        // Realized Spend Check
+        var isSpent = false;
+        if (item.isTicketRequired) {
+          isSpent = window.TripStorage.isItemBooked(item.id, item.defaultBooked);
+          if (isSpent) bookedTicketsCount++;
+        } else if (item.costInr > 0 || item.costRm > 0) {
+          isSpent = window.TripStorage.isItemDone(item.id);
+        }
+
+        if (window.TripStorage.isItemDone(item.id)) {
+          doneItemsCount++;
+        }
+
+        if (isSpent) {
+          if (item.isTicketRequired) {
+            realizedTicketsInr += inr;
+            realizedTicketsRm += rm;
+          } else if (item.category === 'food') {
+            realizedFoodInr += inr;
+            realizedFoodRm += rm;
+          } else if (item.category === 'transport') {
+            realizedTransportInr += inr;
+            realizedTransportRm += rm;
+          } else {
+            realizedActivitiesInr += inr;
+            realizedActivitiesRm += rm;
+          }
+          realizedItineraryInr += inr;
+          realizedItineraryRm += rm;
+
+          if (exp.paymentMethod === 'cash') {
+            cashSpentRm += rm;
+            cashSpentInr += inr;
+          } else if (exp.paymentMethod === 'bank') {
+            bankSpentInr += inr;
+            bankSpentRm += rm;
+          } else {
+            cardSpentInr += inr;
+            cardSpentRm += rm;
+          }
+        }
+      });
+    }
+
+    // Extra Logged Spends (customExpenses for this day)
+    var customList = this.getCustomExpenses(dayId) || [];
+    var extraSpendsInr = 0;
+    var extraSpendsRm = 0;
+
+    customList.forEach(function(ce) {
+      var cInr = ce.amountInr || 0;
+      var cRm = ce.amountRm || (cInr > 0 ? Math.round(cInr / rate) : 0);
+      extraSpendsInr += cInr;
+      extraSpendsRm += cRm;
+
+      if (ce.paymentMethod === 'cash') {
+        cashSpentRm += cRm;
+        cashSpentInr += cInr;
+      } else if (ce.paymentMethod === 'bank') {
+        bankSpentInr += cInr;
+        bankSpentRm += cRm;
+      } else {
+        cardSpentInr += cInr;
+        cardSpentRm += cRm;
+      }
+    });
+
+    var totalSpentInr = realizedItineraryInr + extraSpendsInr;
+    var totalSpentRm = Math.round(cashSpentRm + cardSpentRm + bankSpentRm);
+    if (totalSpentRm === 0 && totalSpentInr > 0) {
+      totalSpentRm = rate > 0 ? Math.round(totalSpentInr / rate) : 0;
+    }
+
+    var differenceInr = totalSpentInr - plannedItineraryInr;
+    var remainingPlannedInr = Math.max(0, plannedItineraryInr - totalSpentInr);
+    var percentageSpent = plannedItineraryInr > 0 ? Math.round((totalSpentInr / plannedItineraryInr) * 100) : (totalSpentInr > 0 ? 100 : 0);
+    var isOverBudget = totalSpentInr > plannedItineraryInr;
+
+    return {
+      dayId: day.id,
+      dayNum: day.dayNum,
+      title: day.title,
+      date: day.date,
+      badgeText: day.badgeText,
+      badgeClass: day.badgeClass,
+      rate: rate,
+
+      // Planned
+      plannedTicketsInr: plannedTicketsInr,
+      plannedTicketsRm: plannedTicketsRm,
+      plannedFoodInr: plannedFoodInr,
+      plannedFoodRm: plannedFoodRm,
+      plannedTransportInr: plannedTransportInr,
+      plannedTransportRm: plannedTransportRm,
+      plannedActivitiesInr: plannedActivitiesInr,
+      plannedActivitiesRm: plannedActivitiesRm,
+      plannedItineraryInr: plannedItineraryInr,
+      plannedItineraryRm: plannedItineraryRm,
+
+      // Realized Itinerary
+      realizedTicketsInr: realizedTicketsInr,
+      realizedTicketsRm: realizedTicketsRm,
+      realizedFoodInr: realizedFoodInr,
+      realizedFoodRm: realizedFoodRm,
+      realizedTransportInr: realizedTransportInr,
+      realizedTransportRm: realizedTransportRm,
+      realizedActivitiesInr: realizedActivitiesInr,
+      realizedActivitiesRm: realizedActivitiesRm,
+      realizedItineraryInr: realizedItineraryInr,
+      realizedItineraryRm: realizedItineraryRm,
+
+      // Extra Logged Spends
+      extraSpendsInr: extraSpendsInr,
+      extraSpendsRm: extraSpendsRm,
+      extraSpendsCount: customList.length,
+      extraSpendsList: customList,
+
+      // Combined Realized
+      totalSpentInr: totalSpentInr,
+      totalSpentRm: totalSpentRm,
+
+      // Comparison / Variance
+      differenceInr: differenceInr,
+      remainingPlannedInr: remainingPlannedInr,
+      percentageSpent: percentageSpent,
+      isOverBudget: isOverBudget,
+
+      // Payment Breakdown for Day
+      cashSpentRm: Math.round(cashSpentRm * 10) / 10,
+      cashSpentInr: cashSpentInr,
+      cardSpentInr: cardSpentInr,
+      cardSpentRm: cardSpentRm,
+      bankSpentInr: bankSpentInr,
+      bankSpentRm: bankSpentRm,
+
+      // Counts
+      totalItemsCount: totalItemsCount,
+      doneItemsCount: doneItemsCount,
+      totalTicketsCount: totalTicketsCount,
+      bookedTicketsCount: bookedTicketsCount
+    };
+  },
+
+  // Aggregates Day-Wise summaries across all 5 Days
+  getAllDaysStats: function() {
+    var self = this;
+    var dayStatsList = [];
+    var totalPlannedItineraryInr = 0;
+    var totalPlannedItineraryRm = 0;
+    var totalRealizedItineraryInr = 0;
+    var totalRealizedItineraryRm = 0;
+    var totalExtraSpendsInr = 0;
+    var totalExtraSpendsRm = 0;
+    var totalExtraSpendsCount = 0;
+    var totalCashSpentRm = 0;
+    var totalCashSpentInr = 0;
+    var totalCardSpentInr = 0;
+    var totalBankSpentInr = 0;
+
+    if (window.ITINERARY_DATA && window.ITINERARY_DATA.length) {
+      window.ITINERARY_DATA.forEach(function(day) {
+        var ds = self.getDayStats(day.id);
+        if (ds) {
+          dayStatsList.push(ds);
+          totalPlannedItineraryInr += ds.plannedItineraryInr;
+          totalPlannedItineraryRm += ds.plannedItineraryRm;
+          totalRealizedItineraryInr += ds.realizedItineraryInr;
+          totalRealizedItineraryRm += ds.realizedItineraryRm;
+          totalExtraSpendsInr += ds.extraSpendsInr;
+          totalExtraSpendsRm += ds.extraSpendsRm;
+          totalExtraSpendsCount += ds.extraSpendsCount;
+          totalCashSpentRm += ds.cashSpentRm;
+          totalCashSpentInr += ds.cashSpentInr;
+          totalCardSpentInr += ds.cardSpentInr;
+          totalBankSpentInr += ds.bankSpentInr;
+        }
+      });
+    }
+
+    var grandTotalSpentInr = totalRealizedItineraryInr + totalExtraSpendsInr;
+    var rate = this.getExchangeRate();
+    var grandTotalSpentRm = rate > 0 ? Math.round(grandTotalSpentInr / rate) : 0;
+    var totalDifferenceInr = grandTotalSpentInr - totalPlannedItineraryInr;
+    var totalRemainingInr = Math.max(0, totalPlannedItineraryInr - grandTotalSpentInr);
+    var overallPercentageSpent = totalPlannedItineraryInr > 0 ? Math.round((grandTotalSpentInr / totalPlannedItineraryInr) * 100) : 0;
+
+    return {
+      days: dayStatsList,
+      totalPlannedItineraryInr: totalPlannedItineraryInr,
+      totalPlannedItineraryRm: totalPlannedItineraryRm,
+      totalRealizedItineraryInr: totalRealizedItineraryInr,
+      totalRealizedItineraryRm: totalRealizedItineraryRm,
+      totalExtraSpendsInr: totalExtraSpendsInr,
+      totalExtraSpendsRm: totalExtraSpendsRm,
+      totalExtraSpendsCount: totalExtraSpendsCount,
+      grandTotalSpentInr: grandTotalSpentInr,
+      grandTotalSpentRm: grandTotalSpentRm,
+      totalDifferenceInr: totalDifferenceInr,
+      totalRemainingInr: totalRemainingInr,
+      overallPercentageSpent: overallPercentageSpent,
+      totalCashSpentRm: Math.round(totalCashSpentRm * 10) / 10,
+      totalCashSpentInr: totalCashSpentInr,
+      totalCardSpentInr: totalCardSpentInr,
+      totalBankSpentInr: totalBankSpentInr,
+      rate: rate
+    };
+  },
+
   getProgress: function() {
     var state = this.getState();
     var totalActivities = 0;

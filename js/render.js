@@ -158,9 +158,17 @@ function renderDayTabs() {
 
   window.ITINERARY_DATA.forEach(function (day) {
     var isActive = activeView === day.id;
+    var ds = window.TripStorage ? window.TripStorage.getDayStats(day.id) : null;
+    var spendText = ds 
+      ? `₹${ds.totalSpentInr > 0 ? (ds.totalSpentInr >= 1000 ? (ds.totalSpentInr/1000).toFixed(1) + 'k' : ds.totalSpentInr) : '0'} / ₹${(ds.plannedItineraryInr/1000).toFixed(1)}k` 
+      : '';
+    var spendClass = ds ? (ds.isOverBudget ? 'over' : (ds.totalSpentInr > 0 ? 'active' : '')) : '';
+
     html += `
       <button class="day-tab ${isActive ? 'active' : ''}" onclick="switchView('${day.id}')">
-        Day ${day.dayNum} <span class="tab-badge">${day.timeline ? day.timeline.length : ''} acts</span>
+        <span class="day-tab-num">Day ${day.dayNum}</span>
+        <span class="tab-badge">${day.timeline ? day.timeline.length : ''} acts</span>
+        ${spendText ? `<span class="day-tab-spend-pill ${spendClass}">${spendText}</span>` : ''}
       </button>
     `;
   });
@@ -313,6 +321,8 @@ function renderItinerary() {
   if (dayIndex === -1) dayIndex = 0;
   var day = window.ITINERARY_DATA[dayIndex];
 
+  var dayStats = window.TripStorage ? window.TripStorage.getDayStats(day.id) : null;
+
   var prevDayId = dayIndex > 0 ? window.ITINERARY_DATA[dayIndex - 1].id : null;
   var nextDayId = dayIndex < window.ITINERARY_DATA.length - 1 ? window.ITINERARY_DATA[dayIndex + 1].id : null;
 
@@ -328,6 +338,71 @@ function renderItinerary() {
       ${day.coupleTip}
     </div>
   ` : '';
+
+  // Day Spend Monitor Banner
+  var daySpendMonitorHtml = '';
+  if (dayStats) {
+    var statusPillClass = dayStats.isOverBudget ? 'over' : (dayStats.totalSpentInr > 0 ? 'on-track' : 'zero');
+    var statusPillText = dayStats.isOverBudget 
+      ? `⚠️ +₹${dayStats.differenceInr.toLocaleString('en-IN')} Over Planned` 
+      : (dayStats.totalSpentInr > 0 
+          ? `✅ ₹${dayStats.remainingPlannedInr.toLocaleString('en-IN')} Remaining` 
+          : `📋 ₹${dayStats.plannedItineraryInr.toLocaleString('en-IN')} Planned Budget`);
+
+    var paymentsSummary = [];
+    if (dayStats.cashSpentRm > 0) paymentsSummary.push(`💵 RM ${dayStats.cashSpentRm} (₹${dayStats.cashSpentInr.toLocaleString('en-IN')})`);
+    if (dayStats.cardSpentInr > 0) paymentsSummary.push(`💳 ₹${dayStats.cardSpentInr.toLocaleString('en-IN')}`);
+    if (dayStats.bankSpentInr > 0) paymentsSummary.push(`🏦 ₹${dayStats.bankSpentInr.toLocaleString('en-IN')}`);
+    var paymentsHtml = paymentsSummary.length ? paymentsSummary.join(' · ') : 'No spends logged yet';
+
+    daySpendMonitorHtml = `
+      <div class="day-spend-monitor-card">
+        <div class="dsm-header">
+          <div class="dsm-title-group">
+            <span class="dsm-title">💳 Day ${day.dayNum} Spend vs. Plan</span>
+            <span class="dsm-sub">Total Spent: Itinerary Realized + Extra Spends Logged</span>
+          </div>
+          <div class="dsm-status-pill ${statusPillClass}">
+            ${statusPillText}
+          </div>
+        </div>
+
+        <div class="dsm-metrics-grid">
+          <div class="dsm-metric-card spent">
+            <span class="dsm-lbl">Total Spent Today</span>
+            <span class="dsm-val green">₹${dayStats.totalSpentInr.toLocaleString('en-IN')}</span>
+            <span class="dsm-sub-val">≈ RM ${dayStats.totalSpentRm}</span>
+          </div>
+          <div class="dsm-metric-card planned">
+            <span class="dsm-lbl">Planned Itinerary</span>
+            <span class="dsm-val">₹${dayStats.plannedItineraryInr.toLocaleString('en-IN')}</span>
+            <span class="dsm-sub-val">≈ RM ${dayStats.plannedItineraryRm}</span>
+          </div>
+          <div class="dsm-metric-card extra">
+            <span class="dsm-lbl">Extra Logged Spends</span>
+            <span class="dsm-val accent">+₹${dayStats.extraSpendsInr.toLocaleString('en-IN')}</span>
+            <span class="dsm-sub-val">≈ RM ${dayStats.extraSpendsRm} (${dayStats.extraSpendsCount} logs)</span>
+          </div>
+          <div class="dsm-metric-card progress">
+            <span class="dsm-lbl">Budget Utilized</span>
+            <span class="dsm-val blue">${dayStats.percentageSpent}%</span>
+            <span class="dsm-sub-val">${dayStats.doneItemsCount}/${dayStats.totalItemsCount} acts done</span>
+          </div>
+        </div>
+
+        <div class="dsm-progress-track">
+          <div class="dsm-progress-fill ${dayStats.isOverBudget ? 'over' : ''}" style="width: ${Math.min(100, dayStats.percentageSpent)}%"></div>
+        </div>
+
+        <div class="dsm-footer-chips">
+          <span class="dsm-chip">🎟 Tickets: <strong>₹${dayStats.realizedTicketsInr.toLocaleString('en-IN')}</strong> / ₹${dayStats.plannedTicketsInr.toLocaleString('en-IN')} (${dayStats.bookedTicketsCount}/${dayStats.totalTicketsCount} booked)</span>
+          <span class="dsm-chip">🍜 Meals/Rides: <strong>₹${(dayStats.realizedFoodInr + dayStats.realizedTransportInr + dayStats.realizedActivitiesInr).toLocaleString('en-IN')}</strong> / ₹${(dayStats.plannedFoodInr + dayStats.plannedTransportInr + dayStats.plannedActivitiesInr).toLocaleString('en-IN')}</span>
+          <span class="dsm-chip">➕ Extra: <strong>₹${dayStats.extraSpendsInr.toLocaleString('en-IN')}</strong></span>
+          <span class="dsm-chip pay-split">💳 ${paymentsHtml}</span>
+        </div>
+      </div>
+    `;
+  }
 
   var customExpensesHtml = renderCustomExpenses(day.id);
   var mapData = window.MAP_DATA ? window.MAP_DATA[day.mapId] : null;
@@ -363,6 +438,13 @@ function renderItinerary() {
     `;
   }
 
+  var headerCostHtml = dayStats
+    ? `<div class="day-cost-total">
+        <span class="day-spent-badge">₹${dayStats.totalSpentInr.toLocaleString('en-IN')} spent</span>
+        <span class="day-planned-sub">of ₹${dayStats.plannedItineraryInr.toLocaleString('en-IN')}</span>
+      </div>`
+    : `<div class="day-cost-total">${day.costTotal}</div>`;
+
   var html = `
     <div class="day-viewer-nav">
       <button class="dvn-btn" ${!prevDayId ? 'disabled' : ''} onclick="switchView('${prevDayId || ''}')">← Prev Day</button>
@@ -377,9 +459,10 @@ function renderItinerary() {
           <div class="day-title">${day.title}</div>
           <div class="day-date">${day.date}</div>
         </div>
-        <div class="day-cost-total">${day.costTotal}</div>
+        ${headerCostHtml}
       </div>
       <div class="day-body">
+        ${daySpendMonitorHtml}
         ${coupleTipHtml}
         <div class="timeline">${timelineHtml}</div>
         ${customExpensesHtml}
@@ -398,6 +481,117 @@ function renderItinerary() {
       }
     }, 50);
   }
+}
+
+function renderDayWiseSpendSummary() {
+  var container = document.getElementById('day-wise-summary-container');
+  if (!container || !window.TripStorage || !window.ITINERARY_DATA) return;
+
+  var allStats = window.TripStorage.getAllDaysStats();
+  if (!allStats) return;
+
+  // 1. Top 4 KPI metric cards
+  var kpiHtml = `
+    <div class="day-kpi-grid">
+      <div class="day-kpi-card planned">
+        <div class="kpi-label">📅 5-Day Planned Sum</div>
+        <div class="kpi-val">₹${allStats.totalPlannedItineraryInr.toLocaleString('en-IN')}</div>
+        <div class="kpi-sub">≈ RM ${allStats.totalPlannedItineraryRm.toLocaleString('en-IN')} · Itinerary items</div>
+      </div>
+
+      <div class="day-kpi-card spent">
+        <div class="kpi-label">💸 Total Day-Wise Spent</div>
+        <div class="kpi-val green">₹${allStats.grandTotalSpentInr.toLocaleString('en-IN')}</div>
+        <div class="kpi-sub">≈ RM ${allStats.grandTotalSpentRm.toLocaleString('en-IN')} (${allStats.overallPercentageSpent}% realized)</div>
+      </div>
+
+      <div class="day-kpi-card extra">
+        <div class="kpi-label">➕ Extra Logged Spends</div>
+        <div class="kpi-val accent">+₹${allStats.totalExtraSpendsInr.toLocaleString('en-IN')}</div>
+        <div class="kpi-sub">≈ RM ${allStats.totalExtraSpendsRm.toLocaleString('en-IN')} (${allStats.totalExtraSpendsCount} logged item${allStats.totalExtraSpendsCount === 1 ? '' : 's'})</div>
+      </div>
+
+      <div class="day-kpi-card remaining">
+        <div class="kpi-label">🎯 Day Budget Balance</div>
+        <div class="kpi-val ${allStats.totalDifferenceInr > 0 ? 'over' : 'blue'}">
+          ${allStats.totalDifferenceInr > 0 ? '+₹' + allStats.totalDifferenceInr.toLocaleString('en-IN') : '₹' + allStats.totalRemainingInr.toLocaleString('en-IN')}
+        </div>
+        <div class="kpi-sub">${allStats.totalDifferenceInr > 0 ? '⚠️ Over planned budget' : 'Remaining to spend in days'}</div>
+      </div>
+    </div>
+  `;
+
+  // Grand Total Card (5 Days Itinerary + Extra Spends)
+  var grandPayChips = [];
+  if (allStats.totalCashSpentRm > 0) grandPayChips.push(`<span class="day-pay-chip cash">💵 RM ${allStats.totalCashSpentRm} (₹${allStats.totalCashSpentInr.toLocaleString('en-IN')})</span>`);
+  if (allStats.totalCardSpentInr > 0) grandPayChips.push(`<span class="day-pay-chip card">💳 ₹${allStats.totalCardSpentInr.toLocaleString('en-IN')}</span>`);
+  if (allStats.totalBankSpentInr > 0) grandPayChips.push(`<span class="day-pay-chip bank">🏦 ₹${allStats.totalBankSpentInr.toLocaleString('en-IN')}</span>`);
+  var grandPaymentsHtml = grandPayChips.length ? grandPayChips.join(' ') : 'None yet';
+
+  var grandStatusText = allStats.totalDifferenceInr > 0 
+    ? `⚠️ +₹${allStats.totalDifferenceInr.toLocaleString('en-IN')} Over Plan` 
+    : `✅ ₹${allStats.totalRemainingInr.toLocaleString('en-IN')} Remaining`;
+
+  var grandCardHtml = `
+    <div class="day-summary-card grand-total">
+      <div class="dsc-header">
+        <div class="dsc-left">
+          <span class="day-badge-mini total">ALL</span>
+          <div class="dsc-title-wrap">
+            <span class="dsc-title" style="color:var(--green)">Grand Day-Wise Total (5 Days Itinerary + Extra Spends)</span>
+            <span class="dsc-date">16 Aug – 20 Aug 2026 · Total 5-Day Realized + Spontaneous Spends</span>
+          </div>
+        </div>
+        <div class="dsc-right">
+          <div class="dsc-spend-block">
+            <span class="dsc-spent-val green" style="font-size:1.35rem;">₹${allStats.grandTotalSpentInr.toLocaleString('en-IN')}</span>
+            <span class="dsc-planned-val">/ ₹${allStats.totalPlannedItineraryInr.toLocaleString('en-IN')} plan</span>
+          </div>
+          <span class="day-variance-pill ${allStats.totalDifferenceInr > 0 ? 'over' : 'remaining'}">${grandStatusText}</span>
+        </div>
+      </div>
+
+      <div class="dsc-progress-track">
+        <div class="dsc-progress-fill ${allStats.totalDifferenceInr > 0 ? 'over' : ''}" style="width:${Math.min(100, allStats.overallPercentageSpent)}%"></div>
+      </div>
+
+      <div class="dsc-breakdown-grid">
+        <div class="dsc-breakdown-item">
+          <span class="dsc-bi-lbl">📋 5-Day Planned:</span>
+          <span class="dsc-bi-val">₹${allStats.totalPlannedItineraryInr.toLocaleString('en-IN')} <span class="dsc-bi-sub">(RM ${allStats.totalPlannedItineraryRm})</span></span>
+        </div>
+        <div class="dsc-breakdown-item">
+          <span class="dsc-bi-lbl">💸 Itinerary Realized:</span>
+          <span class="dsc-bi-val green">₹${allStats.totalRealizedItineraryInr.toLocaleString('en-IN')} <span class="dsc-bi-sub">(RM ${allStats.totalRealizedItineraryRm})</span></span>
+        </div>
+        <div class="dsc-breakdown-item">
+          <span class="dsc-bi-lbl">➕ Extra Spends Logged:</span>
+          <span class="dsc-bi-val accent">+₹${allStats.totalExtraSpendsInr.toLocaleString('en-IN')} <span class="dsc-bi-sub">(${allStats.totalExtraSpendsCount} logs)</span></span>
+        </div>
+        <div class="dsc-breakdown-item">
+          <span class="dsc-bi-lbl">💳 All Payments:</span>
+          <span class="dsc-bi-val">${grandPaymentsHtml}</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = `
+    <div class="day-wise-summary-section">
+      <div class="section-title">
+        <span>📅 Grand Day-Wise Spend vs. Planned Summary</span>
+      </div>
+      <div class="section-sub-desc">
+        Complete 5-day financial summary combining scheduled itinerary costs (booked tickets &amp; completed meals) with all spontaneous extra spend logs.
+      </div>
+
+      ${kpiHtml}
+
+      <div class="day-summary-deck">
+        ${grandCardHtml}
+      </div>
+    </div>
+  `;
 }
 
 function renderBudgetTable() {

@@ -1537,6 +1537,505 @@ body {
   margin-top: 2px;
 }
 
+/* Day Tab Spend Mini Pills */
+.day-tab-num {
+  font-weight: 700;
+}
+.day-tab-spend-pill {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+  border-radius: 10px;
+  padding: 1px 6px;
+  margin-left: 2px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+.day-tab.active .day-tab-spend-pill {
+  background: rgba(0, 0, 0, 0.25);
+  color: #111;
+}
+.day-tab-spend-pill.active {
+  color: var(--green);
+  background: rgba(94, 203, 138, 0.15);
+}
+.day-tab.active .day-tab-spend-pill.active {
+  color: #111;
+  background: rgba(0, 0, 0, 0.2);
+}
+.day-tab-spend-pill.over {
+  color: var(--accent2);
+  background: rgba(232, 133, 90, 0.18);
+}
+
+/* Day Header Cost Badge & Subtext */
+.day-cost-total {
+  font-family: 'DM Sans', sans-serif;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.day-spent-badge {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.25rem;
+  color: var(--green);
+  line-height: 1.15;
+}
+.day-planned-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Day Spend Monitor Card (Inside Day Card) */
+.day-spend-monitor-card {
+  background: linear-gradient(135deg, #141824, #191e2e);
+  border: 1px solid #2b3247;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+.dsm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dsm-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.dsm-title {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text);
+}
+.dsm-sub {
+  font-size: 11px;
+  color: var(--muted);
+}
+.dsm-status-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.dsm-status-pill.on-track {
+  background: rgba(94, 203, 138, 0.15);
+  color: var(--green);
+  border: 1px solid rgba(94, 203, 138, 0.35);
+}
+.dsm-status-pill.zero {
+  background: rgba(91, 156, 246, 0.12);
+  color: var(--blue);
+  border: 1px solid rgba(91, 156, 246, 0.3);
+}
+.dsm-status-pill.over {
+  background: rgba(232, 133, 90, 0.18);
+  color: var(--accent2);
+  border: 1px solid rgba(232, 133, 90, 0.4);
+}
+.dsm-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+@media (max-width: 640px) {
+  .dsm-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.dsm-metric-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.dsm-metric-card.spent {
+  background: #111e17;
+  border-color: #204530;
+}
+.dsm-metric-card.planned {
+  background: #171c2a;
+  border-color: #28334a;
+}
+.dsm-metric-card.extra {
+  background: #221b14;
+  border-color: #4a341e;
+}
+.dsm-metric-card.progress {
+  background: #121929;
+  border-color: #1e3050;
+}
+.dsm-lbl {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.dsm-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.dsm-val.green {
+  color: var(--green);
+}
+.dsm-val.accent {
+  color: var(--accent);
+}
+.dsm-val.blue {
+  color: var(--blue);
+}
+.dsm-val.muted {
+  color: var(--muted);
+}
+.dsm-sub-val {
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.dsm-progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.dsm-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+.dsm-progress-fill.over {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+.dsm-footer-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.dsm-chip {
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: var(--muted);
+}
+.dsm-chip strong {
+  color: var(--text);
+}
+.dsm-chip.pay-split {
+  color: var(--accent);
+  background: rgba(247, 201, 72, 0.08);
+  border-color: rgba(247, 201, 72, 0.2);
+}
+
+/* Day-Wise Spend vs. Planned Summary Section */
+.day-wise-summary-section {
+  margin-top: 36px;
+  margin-bottom: 36px;
+}
+.section-sub-desc {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: -10px;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+/* 4 KPI Top Cards Grid */
+.day-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media (max-width: 680px) {
+  .day-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 440px) {
+  .day-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.day-kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.day-kpi-card.planned {
+  border-color: #28334a;
+  background: #141824;
+}
+.day-kpi-card.spent {
+  border-color: #204530;
+  background: #111f17;
+}
+.day-kpi-card.extra {
+  border-color: #4a341e;
+  background: #201a14;
+}
+.day-kpi-card.remaining {
+  border-color: #1e3050;
+  background: #121a2a;
+}
+.kpi-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.kpi-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.55rem;
+  line-height: 1.2;
+}
+.kpi-val.green {
+  color: var(--green);
+}
+.kpi-val.accent {
+  color: var(--accent);
+}
+.kpi-val.blue {
+  color: var(--blue);
+}
+.kpi-val.over {
+  color: var(--accent2);
+}
+.kpi-sub {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+/* Day Summary Deck (Cards & List UI) */
+.day-summary-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.day-summary-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+.day-summary-card:hover {
+  border-color: #3b4462;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+.day-summary-card.is-over {
+  border-color: #552a1a;
+  background: linear-gradient(135deg, #181517, #1f1816);
+}
+.day-summary-card.grand-total {
+  background: linear-gradient(135deg, #131d16, #18241b);
+  border: 1.5px solid #234f34;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  margin-top: 6px;
+}
+
+/* Card Header */
+.dsc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.dsc-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 200px;
+}
+.dsc-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.dsc-title {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--text);
+}
+.dsc-date {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.dsc-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.dsc-spend-block {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.dsc-spent-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.35rem;
+  color: var(--green);
+  line-height: 1.15;
+}
+.dsc-planned-val {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Progress Track */
+.dsc-progress-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.dsc-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+.dsc-progress-fill.over {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+
+/* Breakdown Grid (4 columns on desktop, 2 on tablet, 1 on small phones) */
+.dsc-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+@media (max-width: 720px) {
+  .dsc-breakdown-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 440px) {
+  .dsc-breakdown-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.dsc-breakdown-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+}
+.dsc-bi-lbl {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 600;
+}
+.dsc-bi-val {
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--text);
+}
+.dsc-bi-val.green {
+  color: var(--green);
+}
+.dsc-bi-val.accent {
+  color: var(--accent);
+}
+.dsc-bi-val.muted {
+  color: var(--muted);
+}
+.dsc-bi-sub {
+  font-size: 10.5px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* Footer Actions */
+.dsc-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+.dsc-acts-done {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.dsc-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dsc-btn-log {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.dsc-btn-log:hover {
+  background: #252b3d;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.dsc-btn-view {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.dsc-btn-view:hover {
+  background: var(--accent);
+  color: #111;
+  border-color: var(--accent);
+}
+
 hr.divider {
   border: none;
   border-top: 1px solid var(--border);
